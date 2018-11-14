@@ -106,8 +106,8 @@ uint8_t PWM3_serial_cnt=0;
 
 //volatile CHCKMODE_OUTPUT_PWM state=LOAD_PARA;
 CHCKMODE_OUTPUT_PWM state=LOAD_PARA;
-uint8_t mode;                      
-uint8_t prev_mode;
+uint8_t mode=1;                      
+//uint8_t prev_mode;
 
 //uint8_t pwm_buffer[144]={0};
 //uint16_t	mode;
@@ -127,35 +127,19 @@ uint32_t adc_pressure_value=0;
 
 uint8_t led_high_cnt=0;
 uint8_t led_low_cnt=0;
+uint8_t flash_cnt=0;
+
+extern BOOL b_check_BAT_ok;
+
+uint8_t switch_mode_cnt=0;
+BOOL b_check_bnt_release=FALSE;
+uint8_t release_btn_cnt=0;
 /*******************************************************************************
 *                                内部函数声明
 *******************************************************************************/
 static BOOL ModuleUnPackFrame(void);
 static BOOL ModuleProcessPacket(UINT8 *pData);
 static UINT8 CheckCheckSum(UINT8* pData, UINT8 nLen);
-
-
-//void Motor_shake_for_sleep()
-//{
-//	//LED orange solid
-//	//vibration x5 0.5HZ 
-//	//auto shutdown
-//	set_led(LED_RED);
-//	
-//	for(uint8_t i=0;i<5;i++)
-//	{
-//		Motor_PWM_Freq_Dudy_Set(1,100,0);
-//		Motor_PWM_Freq_Dudy_Set(2,100,0);
-//		Motor_PWM_Freq_Dudy_Set(3,100,0);
-//		Delay_ms(500);
-//		//IWDG_Feed();
-//		Motor_PWM_Freq_Dudy_Set(1,100,50);
-//		Motor_PWM_Freq_Dudy_Set(2,100,50);
-//		Motor_PWM_Freq_Dudy_Set(3,100,50);
-//		Delay_ms(500);
-//		IWDG_Feed();
-//	}
-//}
 
 void init_PWMState(void)
 {
@@ -440,8 +424,6 @@ BOOL Is_timing_Xmillisec(uint32_t n_ms,uint8_t num)
 	return FALSE;
 }
 
-
-
 void bat_check()
 {
 	if(mcu_state==POWER_ON)
@@ -453,19 +435,18 @@ void bat_check()
 		
 		if(led_state==LED_RED_SOLID) //关机
 		{
-			set_led(LED_RED);
+			set_led(LED_CLOSE,TRUE);
+			set_led(LED_YELLOW,TRUE);
 		
 			for(uint8_t i=0;i<5;i++)
 			{
 				Motor_PWM_Freq_Dudy_Set(1,100,0);
 				Motor_PWM_Freq_Dudy_Set(2,100,0);
-	//			Motor_PWM_Freq_Dudy_Set(3,100,0);
 				Delay_ms(500);
 				//IWDG_Feed();
 				Motor_PWM_Freq_Dudy_Set(1,100,50);
 				Motor_PWM_Freq_Dudy_Set(2,100,50);
-				//Motor_PWM_Freq_Dudy_Set(2,100,50);
-	//			Motor_PWM_Freq_Dudy_Set(3,100,50);
+
 				Delay_ms(500);
 				IWDG_Feed();
 			}
@@ -475,16 +456,23 @@ void bat_check()
 		
 		if(led_state==LED_RED_FLASH)
 		{
-			
-			//static BOOL b_led_red=TRUE;
 			if(led_high_cnt==10)
 			{
-				//set_led(LED_RED);
-				set_led(LED_CLOSE);
+				set_led(LED_CLOSE,TRUE);
 				if(led_low_cnt==10)
 				{
 					led_high_cnt=0;
 					led_low_cnt=0;
+					if(flash_cnt==5)
+					{
+						led_state=LED_NONE;
+						flash_cnt=0;
+						show_mode_LED();
+					}
+					else
+					{
+						flash_cnt++;
+					}
 				}
 				else
 				{
@@ -493,17 +481,12 @@ void bat_check()
 			}
 			else
 			{
-				set_led(LED_RED);
+				set_led(LED_CLOSE,TRUE);
+				set_led(LED_YELLOW,TRUE);
 				led_high_cnt++;
 			}
 		}
-		
-		if(led_state==LED_GREEN_SOLID)
-		{
-			set_led(LED_GREEN);
-		}
 	}
-	
 	os_delay_ms(TASK_BAT_CHECK, 50);
 }
 
@@ -615,41 +598,14 @@ void bat_check()
 *******************************************************************************/
 void get_switch_mode()
 {
-	static uint8_t switch_mode_cnt=0;
-	mode=GetModeSelected();
-	
-	if(mcu_state==POWER_ON)
+	if(mcu_state==POWER_ON||b_check_BAT_ok==TRUE)
 	{
-		if(mode!=prev_mode)
+		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4)==0)  //按键按下了
 		{
-			if(switch_mode_cnt==5)
+			if(switch_mode_cnt==3)
 			{
-				prev_mode=mode;
+				b_check_bnt_release=TRUE;
 				switch_mode_cnt=0;
-				init_PWMState();
-				state=LOAD_PARA;
-				
-				//根据当前按键挡位记录
-//				if(mode==1)
-//				{
-//					record_dateTime(CODE_SWITCH_2_MODE1);
-//				}
-//				else if(mode==2)
-//				{
-//					record_dateTime(CODE_SWITCH_2_MODE2);
-//				}
-//				else if(mode==3)
-//				{
-//					record_dateTime(CODE_SWITCH_2_MODE3);
-//				}
-//				else
-//				{
-//					//do nothing
-//				}
-				
-				Motor_PWM_Freq_Dudy_Set(1,100,0);
-				Motor_PWM_Freq_Dudy_Set(2,100,0);
-	//			Motor_PWM_Freq_Dudy_Set(3,100,0);
 			}
 			else
 			{
@@ -659,6 +615,49 @@ void get_switch_mode()
 		else
 		{
 			switch_mode_cnt=0;
+			if(b_check_bnt_release==TRUE)
+			{
+				if(release_btn_cnt==2)
+				{
+					b_check_bnt_release=FALSE;
+					release_btn_cnt=0;
+
+					init_PWMState();
+					state=LOAD_PARA;
+						//选择模式灯
+					switch(mode)
+					{
+						case 1:   //当前是模式1，按下之后就变成了模式2，所以mode=2，亮两盏灯
+							mode=2;
+							set_led(LED_CLOSE,TRUE);
+							set_led(LED_GREEN_1,TRUE);
+							set_led(LED_GREEN_2,TRUE);
+							break;
+						case 2:
+							mode=3;
+							set_led(LED_CLOSE,TRUE);
+							set_led(LED_GREEN_1,TRUE);
+							set_led(LED_GREEN_2,TRUE);
+							set_led(LED_GREEN_3,TRUE);
+							break;
+						case 3:
+							mode=1;
+							set_led(LED_CLOSE,TRUE);
+							set_led(LED_GREEN_1,TRUE);
+							break;
+						default:
+							break;
+					}	
+				
+					//震动马达
+					Motor_PWM_Freq_Dudy_Set(1,100,0);
+					Motor_PWM_Freq_Dudy_Set(2,100,0);
+					}
+					else
+					{
+						release_btn_cnt++;
+					}
+			}
 		}
 	}
 	os_delay_ms(TASK_GET_SWITCH_MODE, 20);
@@ -999,14 +998,14 @@ void check_selectedMode_ouputPWM()
 		//4.检测压力
 		if(state==CHECK_PRESSURE) //检测压力
 		{
-			if(b_getHoneywellZeroPoint)
+//			if(b_getHoneywellZeroPoint)
 			{
 				if(CHECK_MODE_OUTPUT_PWM*checkPressAgain_cnt==60*1000)   //连续60s检测不到，进入POWER_OFF
 				{
 					checkPressAgain_cnt=0;
 					mcu_state=POWER_OFF;
 					state=LOAD_PARA;
-					set_led(LED_CLOSE);
+					set_led(LED_CLOSE,TRUE);
 					
 					//60s内没触发，记录
 					record_dateTime(CODE_NO_TRIGGER_IN_60S);
@@ -1016,41 +1015,42 @@ void check_selectedMode_ouputPWM()
 				}
 				else
 				{
-					//if(adc_value[1]<buffer[0]*PRESSURE_RATE)
-	//				if(adc_value[1]<PRESSURE_SENSOR_VALUE(buffer[0]))
+					if(b_getHoneywellZeroPoint)
+					{
+						if(adc_pressure_value<=trans_xmmHg_2_adc_value(buffer[0]))
+						{
+							checkPressAgain_cnt++;
+						}
+						else	
+						{
+							checkPressAgain_cnt=0;
 
-					if(adc_pressure_value<trans_xmmHg_2_adc_value(buffer[0]))
+							if(adc_pressure_value>trans_xmmHg_2_adc_value(PRESSURE_SAFETY_THRESHOLD))  
+							{
+								state=OVER_THRESHOLD_SAFETY;
+							}
+
+							else if(adc_pressure_value>=trans_xmmHg_2_adc_value(buffer[0])&&adc_pressure_value<=trans_xmmHg_2_adc_value(PRESSURE_SAFETY_THRESHOLD))
+							{
+								//触发成功，记录治疗开始时间
+								record_dateTime(CODE_SYSTEM_BEEN_TRIGGERED);
+								
+								state=PREV_OUTPUT_PWM;
+								checkPressAgain_cnt=0;
+								waitBeforeStart_timing_flag=TRUE;
+								prev_WaitBeforeStart_os_tick=0;
+							}
+							else
+							{
+								//do nothing
+							}
+						}
+					}
+					else  //如果得不到honeywell零点，说明sensor坏了，不用在进行数据比较了，直接60s倒计时
 					{
 						checkPressAgain_cnt++;
 					}
-					else	
-					{
-						checkPressAgain_cnt=0;
-						//state=LOAD_PARA;
-						//if(adc_value[1]>PRESSURE_SAFETY_THRESHOLD*PRESSURE_RATE)  
-	//					if(adc_value[1]>PRESSURE_SENSOR_VALUE(PRESSURE_SAFETY_THRESHOLD)) 
-
-						if(adc_pressure_value>trans_xmmHg_2_adc_value(PRESSURE_SAFETY_THRESHOLD))  
-						{
-							state=OVER_THRESHOLD_SAFETY;
-						}
-						//else if(adc_value[1]>=parameter_buf[0]*70&&adc_value[1]<=20*70)
-	//					else if(adc_value[1]>=PRESSURE_SENSOR_VALUE(buffer[0])&&adc_value[1]<=PRESSURE_SENSOR_VALUE(PRESSURE_SAFETY_THRESHOLD))
-						else if(adc_pressure_value>=trans_xmmHg_2_adc_value(buffer[0])&&adc_pressure_value<=trans_xmmHg_2_adc_value(PRESSURE_SAFETY_THRESHOLD))
-						{
-							//触发成功，记录治疗开始时间
-							record_dateTime(CODE_SYSTEM_BEEN_TRIGGERED);
-							
-							state=PREV_OUTPUT_PWM;
-							checkPressAgain_cnt=0;
-							waitBeforeStart_timing_flag=TRUE;
-							prev_WaitBeforeStart_os_tick=0;
-						}
-						else
-						{
-							//do nothing
-						}
-					}
+					
 				}
 			}
 			
@@ -1118,7 +1118,8 @@ void check_selectedMode_ouputPWM()
 			//记录过压
 			record_dateTime(CODE_OVER_PRESSURE);
 			
-			set_led(LED_RED);
+			set_led(LED_CLOSE,TRUE);
+			set_led(LED_YELLOW,TRUE);
 			for(uint8_t i=0;i<5;i++)
 			//for(uint8_t i=0;i<3;i++)
 			{

@@ -111,7 +111,6 @@ int main(void)
 	init_system_afterWakeUp();
 	#endif
 
-		
 	os_create_task(init_task, OS_TRUE, INIT_TASK_ID);
 	os_start();
 

@@ -40,7 +40,8 @@
 * È«¾Ö±äÁ¿
 ***********************************/
 unsigned short inner_adc_result[SAMPLING_CNT];
- uint16_t RegularConvData_Tab[2];  //µç³ØµçÑ¹ºÍ°´¼üÄ£Ê½
+uint16_t RegularConvData_Tab[1];
+// uint16_t RegularConvData_Tab[2];  //µç³ØµçÑ¹ºÍ°´¼üÄ£Ê½ //ÐÂ°æ±¾ÖÐ°´¼üÄ£Ê½Ê¹ÓÃtact switch£¬²»ÓÃADC4ÁË
 
 int16_t zero_point_of_pressure_sensor;
 
@@ -50,6 +51,8 @@ extern uint8_t parameter_buf[PARAMETER_BUF_LEN];
 extern const uint8_t default_parameter_buf[PARAMETER_BUF_LEN];
 extern BOOL b_Is_PCB_PowerOn;
 extern uint8_t prev_mode;
+
+extern uint8_t mode;
 /***********************************
 * ¾Ö²¿±äÁ¿
 ***********************************/
@@ -124,20 +127,20 @@ void init_tim(void)
 /**************************************************************
 * ³õÊ¼LED¹Ü½Å
 **************************************************************/
-void Init_LED(void)
-{
-	GPIO_InitTypeDef  GPIO_InitStructure;
-	//ÍÆÍìÊä³ö
-	GPIO_InitStructure.GPIO_Pin = GREEN_LED_PIN;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_Init(GREEN_LED_PORT, &GPIO_InitStructure);
-	
-	GPIO_InitStructure.GPIO_Pin = RED_LED_PIN;
-  GPIO_Init(RED_LED_PORT, &GPIO_InitStructure);
-}
+//void Init_LED(void)
+//{
+//	GPIO_InitTypeDef  GPIO_InitStructure;
+//	//ÍÆÍìÊä³ö ¿ªÆôÂÌµÆ1
+//	GPIO_InitStructure.GPIO_Pin = GREEN_LED_PIN_1;
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+//  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+//  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//  GPIO_Init(GREEN_LED_PORT_1, &GPIO_InitStructure);
+//	
+//	GPIO_InitStructure.GPIO_Pin = YELLO_LED_CTRL_PIN;  //¹Ø±Õ»ÆµÆ
+//  GPIO_Init(YELLO_LED_PORT, &GPIO_InitStructure);
+//}
 
 void Init_PWRSAVE(void)
 {
@@ -169,39 +172,79 @@ void Init_PWRSAVE(void)
 //	*p_zeroPoint=sum/10;
 //}
 
-
-/**************************************************************
-* ³õÊ¼»¯Ó²¼þ¹Ü½Å
-**************************************************************/
-void init_hardware()
+//PA0,KEY_WAKE_UP ÓÃÖÐ¶Ï»½ÐÑ
+void Init_KEY_WAKEUP()  
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
-
-//	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB | RCC_AHBPeriph_GPIOF, ENABLE);
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB, ENABLE);
-
-	//ÊäÈë¼ì²â
-//	GPIO_InitStructure.GPIO_Pin = EXP_DETECT_PIN;
-//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
-//	GPIO_Init(EXP_DETECT_PORT, &GPIO_InitStructure);
 	
-	//°´¼ü PA0
 	GPIO_InitStructure.GPIO_Pin = KEY_DETECT_PIN;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_Init(KEY_DETECT_PORT, &GPIO_InitStructure);
+}
+
+void show_mode_LED()
+{
+	switch(mode)
+	{
+		case 1:
+			set_led(LED_CLOSE,TRUE);
+			set_led(LED_GREEN_1,TRUE);
+			break;
+		case 2:
+			set_led(LED_CLOSE,TRUE);
+			set_led(LED_GREEN_1,TRUE);
+			set_led(LED_GREEN_2,TRUE);
+			break;
+		case 3:
+			set_led(LED_CLOSE,TRUE);
+			set_led(LED_GREEN_1,TRUE);
+			set_led(LED_GREEN_2,TRUE);
+			set_led(LED_GREEN_3,TRUE);
+			break;
+		default:
+			break;
+	}	
+}
+
+//³õÊ¼»¯LEDµÆ
+void Init_LED()
+{
+	GPIO_InitTypeDef  GPIO_InitStructure;
 	
-	//LEDµÆ PB8 PB9
-	GPIO_InitStructure.GPIO_Pin = GREEN_LED_PIN;
+	//»ÆµÆ¿ØÖÆ½Å PB11  
+	GPIO_InitStructure.GPIO_Pin = YELLO_LED_CTRL_PIN;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GREEN_LED_PORT, &GPIO_InitStructure);
+	GPIO_Init(YELLO_LED_PORT, &GPIO_InitStructure);
+	GPIO_ResetBits(YELLO_LED_PORT,YELLO_LED_CTRL_PIN);   //µÍµçÆ½¹Ø¶Ï¹Ü×Ó
 	
-	GPIO_InitStructure.GPIO_Pin = RED_LED_PIN;
-	GPIO_Init(RED_LED_PORT, &GPIO_InitStructure);
-	set_led(LED_CLOSE);
+	//LEDµÆ PB8 PB9 PB10
+	GPIO_InitStructure.GPIO_Pin = GREEN_LED_PIN_1;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GREEN_LED_PORT_1, &GPIO_InitStructure);
+	//GPIO_ResetBits(GREEN_LED_PORT_1, GREEN_LED_PIN_1);
 	
+	GPIO_InitStructure.GPIO_Pin = GREEN_LED_PIN_2;
+	GPIO_Init(GREEN_LED_PORT_2, &GPIO_InitStructure);
+//	GPIO_ResetBits(GREEN_LED_PORT_2, GREEN_LED_PIN_2);
+	
+	GPIO_InitStructure.GPIO_Pin = GREEN_LED_PIN_3;
+	GPIO_Init(GREEN_LED_PORT_3, &GPIO_InitStructure);
+//	GPIO_ResetBits(GREEN_LED_PORT_3, GREEN_LED_PIN_3);
+	
+//	show_mode_LED();
+//	set_led(LED_CLOSE,TRUE);
+}
+
+//³õÊ¼»¯PWR_SAVE,PA5
+void Init_PWR_SAVE()
+{
+	GPIO_InitTypeDef  GPIO_InitStructure;
 	//µçÔ´PWR_SAVE PA5
 	GPIO_InitStructure.GPIO_Pin = KEY_PWR_SAVE_PIN;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
@@ -210,12 +253,45 @@ void init_hardware()
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(KEY_PWR_SAVE_PORT, &GPIO_InitStructure);
 	GPIO_ResetBits(KEY_PWR_SAVE_PORT,KEY_PWR_SAVE_PIN);
+}
 
+//³õÊ¼»¯KEY_MODE,PA4
+void Init_KEY_MODE()
+{
+	GPIO_InitTypeDef  GPIO_InitStructure;
 	
-	//³õÊ¼»¯ADC   PA1 PA4
-	ADC1_Init();
+	GPIO_InitStructure.GPIO_Pin = KEY_MODE_PIN;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+//	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(KEY_MODE_PORT, &GPIO_InitStructure);
+}
 
-	prev_mode=GetModeSelected(); //³õÊ¼»¯µÄÊ±ºòµÃµ½°´¼üµÄÄ£Ê½
+/**************************************************************
+* ³õÊ¼»¯Ó²¼þ¹Ü½Å
+**************************************************************/
+void init_hardware()
+{
+//	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB | RCC_AHBPeriph_GPIOF, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB, ENABLE);
+
+//	//³õÊ¼»¯key_wakeup  
+//	Init_KEY_WAKEUP();  //PA0
+	
+	//³õÊ¼»¯LEDµÆ
+	Init_LED();         //PB8,PB9,PB10,PB11
+	
+	//³õÊ¼»¯PWR_SAVE
+	Init_PWR_SAVE();  	//PA5
+	
+	//³õÊ¼»¯ADC_BAT,PA1 (PA4²»ÓÃÁË)
+	Init_ADC1();   			//PA1
+	
+	//³õÊ¼»¯KEY_MODE,PA4
+	Init_KEY_MODE();   //PA4
+	
+//	prev_mode=GetModeSelected(); //³õÊ¼»¯µÄÊ±ºòµÃµ½°´¼üµÄÄ£Ê½
 
 //³õÊ¼»¯flashÖÐµÄdatetime¼ÇÂ¼Ò³
 	Init_RecordPage();
@@ -224,11 +300,11 @@ void init_hardware()
 /**************************************************************
 * °å¼¶Ó²¼þ×ÊÔ´¿ØÖÆ
 **************************************************************/
-//ºôÎü™zœy½Å î‘B
-BOOL get_exp_status(void)
-{
-	return GPIO_ReadInputDataBit(EXP_DETECT_PORT, EXP_DETECT_PIN);
-}
+////ºôÎü™zœy½Å î‘B
+//BOOL get_exp_status(void)
+//{
+//	return GPIO_ReadInputDataBit(EXP_DETECT_PORT, EXP_DETECT_PIN);
+//}
 
 //°´¼ü™zœy½Å î‘B
 //TRUE£º°´ÏÂ
@@ -239,30 +315,59 @@ BOOL get_key_status(void)
 }
 
 //ÉèÖÃLEDÖ¸Ê¾µÆ
-void set_led(LED_COLOR color)
+void set_led(LED_COLOR color,BOOL ON_OFF)
 {
 	switch(color)
 	{
-		case LED_CLOSE:
-			GPIO_SetBits(GREEN_LED_PORT, GREEN_LED_PIN);
-			GPIO_SetBits(RED_LED_PORT, RED_LED_PIN);
-//			GPIO_SetBits(BLUE_LED_PORT, BLUE_LED_PIN);
+		case LED_CLOSE:   //¹Ø±ÕËùÓÐµÄLEDµÆ
+			if(ON_OFF)
+			{
+				GPIO_SetBits(GREEN_LED_PORT_1, GREEN_LED_PIN_1);  //¹Ø±Õ3¸öÂÌµÆ
+				GPIO_SetBits(GREEN_LED_PORT_2, GREEN_LED_PIN_2);
+				GPIO_SetBits(GREEN_LED_PORT_3, GREEN_LED_PIN_3);
+				GPIO_ResetBits(YELLO_LED_PORT, YELLO_LED_CTRL_PIN); //¹Ø±Õ3¸ö»ÆµÆ
+			}
 			break;
-		case LED_BLUE:
-			GPIO_SetBits(GREEN_LED_PORT, GREEN_LED_PIN);
-			GPIO_SetBits(RED_LED_PORT, RED_LED_PIN);
-//			GPIO_ResetBits(BLUE_LED_PORT, BLUE_LED_PIN);
+		case LED_GREEN_1: //¿ªÆôÂÌµÆ1
+			if(ON_OFF)
+			{
+				GPIO_ResetBits(GREEN_LED_PORT_1, GREEN_LED_PIN_1);     //¿ªÆôÂÌµÆ1
+			}
+			else
+			{
+				GPIO_SetBits(GREEN_LED_PORT_1, GREEN_LED_PIN_1);
+			}
 			break;
-		case LED_RED:
-			GPIO_ResetBits(RED_LED_PORT, RED_LED_PIN);
-			GPIO_SetBits(GREEN_LED_PORT, GREEN_LED_PIN);			
-//			GPIO_SetBits(BLUE_LED_PORT, BLUE_LED_PIN);
-			break;
-		case LED_GREEN:
-			GPIO_ResetBits(GREEN_LED_PORT, GREEN_LED_PIN);
-			GPIO_SetBits(RED_LED_PORT, RED_LED_PIN);
-//			GPIO_SetBits(BLUE_LED_PORT, BLUE_LED_PIN);
-			break;
+		case LED_GREEN_2://¿ªÆôÂÌµÆ2
+			if(ON_OFF)
+			{
+				GPIO_ResetBits(GREEN_LED_PORT_2, GREEN_LED_PIN_2);     //¿ªÆôÂÌµÆ2
+			}
+			else
+			{
+				GPIO_SetBits(GREEN_LED_PORT_2, GREEN_LED_PIN_2);
+			}
+			break;	
+		case LED_GREEN_3://¿ªÆôÂÌµÆ3
+			if(ON_OFF)
+			{
+				GPIO_ResetBits(GREEN_LED_PORT_3, GREEN_LED_PIN_3);     //¿ªÆôÂÌµÆ3
+			}
+			else
+			{
+				GPIO_SetBits(GREEN_LED_PORT_3, GREEN_LED_PIN_3);
+			}
+			break;		
+		case LED_YELLOW://¿ªÆô»ÆµÆ
+		if(ON_OFF)
+			{
+				GPIO_SetBits(YELLO_LED_PORT, YELLO_LED_CTRL_PIN);     //¸ßµçÆ½¿ª¹Ü
+			}
+			else
+			{
+				GPIO_ResetBits(YELLO_LED_PORT, YELLO_LED_CTRL_PIN);
+			}
+			break;	
 		default:
 			break;
 	}
@@ -491,17 +596,16 @@ void Key_WakeUp_Init(void)
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 
-void ADC1_Init(void)
+void Init_ADC1(void)
 {
-
 	GPIO_InitTypeDef    GPIO_InitStructure;
 	DMA_InitTypeDef     DMA_InitStructure;
 	ADC_InitTypeDef     ADC_InitStructure;
 
-	
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_4;
+//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_4;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;  //PA4²»ÐèÒªÁË
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
   GPIO_Init(GPIOA, &GPIO_InitStructure);	
@@ -515,7 +619,8 @@ void ADC1_Init(void)
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)ADC1_DR_Address;//íaéèµ??·
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)RegularConvData_Tab;//?ú'?µ??·
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;//íaéè×÷?aêy?Y'?ê?µ?à'?'
-  DMA_InitStructure.DMA_BufferSize = 2;//
+//  DMA_InitStructure.DMA_BufferSize = 2;//
+  DMA_InitStructure.DMA_BufferSize = 1;
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;//íaéèµ??·??'??÷2?±?
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;//?ú'?µ??·??'??÷2?±?
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;//êy?Y?í?è?a16??
@@ -525,13 +630,10 @@ void ADC1_Init(void)
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;//DMAí¨µàx??óDéè???a?ú'?µ??ú'?'?ê?
   DMA_Init(DMA1_Channel1, &DMA_InitStructure);
 		  
-  
-	
+
 	DMA_Cmd(DMA1_Channel1, ENABLE);/* DMA1 Channel1 enable */			
 	ADC_DMARequestModeConfig(ADC1, ADC_DMAMode_Circular); /* Enable ADC_DMA */	
   ADC_DMACmd(ADC1, ENABLE);  
-	
-		
 
 	ADC_StructInit(&ADC_InitStructure);//3?ê??¯ADC?á11
 	
@@ -543,24 +645,13 @@ void ADC1_Init(void)
   ADC_Init(ADC1, &ADC_InitStructure); 
 	 
   ADC_ChannelConfig(ADC1, ADC_Channel_1 , ADC_SampleTime_239_5Cycles); /* Convert the ADC1 Channel 11 with 239.5 Cycles as sampling time */  
-  ADC_ChannelConfig(ADC1, ADC_Channel_4 , ADC_SampleTime_239_5Cycles); /* Convert the ADC1 Channel 11 with 239.5 Cycles as sampling time */  
-
-//  ADC_ChannelConfig(ADC1, ADC_Channel_Vrefint ,ADC_SampleTime_239_5Cycles); 
-//  ADC_VrefintCmd(ENABLE);
-//	
-//	ADC_ChannelConfig(ADC1, ADC_Channel_TempSensor ,ADC_SampleTime_239_5Cycles);
-//	ADC_TempSensorCmd(ENABLE);
-//	
-//	ADC_ChannelConfig(ADC1, ADC_Channel_Vbat ,ADC_SampleTime_239_5Cycles);
-//	ADC_VbatCmd(ENABLE);
+//  ADC_ChannelConfig(ADC1, ADC_Channel_4 , ADC_SampleTime_239_5Cycles); /* Convert the ADC1 Channel 11 with 239.5 Cycles as sampling time */  
 	
 	ADC_GetCalibrationFactor(ADC1); /* ADC Calibration */  
   ADC_Cmd(ADC1, ENABLE);  /* Enable ADCperipheral[PerIdx] */	  
   while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_ADEN)); /* Wait the ADCEN falg */
   ADC_StartOfConversion(ADC1); /* ADC1 regular Software Start Conv */ 
 }
-
-
 
 
 //uint16_t Adc_Switch(uint32_t ADC_Channel)
