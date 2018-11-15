@@ -229,22 +229,23 @@ void init_system_afterWakeUp()
 
 void CfgALLPins4StopMode()
 {
+//	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, DISABLE); //关闭RTC的时钟使能，这句话要还是不要？
 //	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB | RCC_AHBPeriph_GPIOF, ENABLE);
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB|RCC_AHBPeriph_GPIOC, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB|RCC_AHBPeriph_GPIOC|RCC_AHBPeriph_GPIOF, ENABLE);
 	
-////	//PF0,PF1
-//	GPIO_InitTypeDef GPIO_InitStructure_PF;
-//	GPIO_InitStructure_PF.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1;                       
-//	GPIO_InitStructure_PF.GPIO_Speed = GPIO_Speed_50MHz; 
-//	GPIO_InitStructure_PF.GPIO_Mode = GPIO_Mode_IN;	
-////	GPIO_InitStructure_PF.GPIO_Mode = GPIO_Mode_AF;	
-////	GPIO_InitStructure_PF.GPIO_Mode = GPIO_Mode_OUT;
-////	GPIO_InitStructure_PF.GPIO_OType=GPIO_OType_PP;
-////	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_UP;
-//	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_DOWN;
-////	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_NOPULL;
-//	GPIO_Init(GPIOF, &GPIO_InitStructure_PF);
-////	GPIO_SetBits(GPIOF, GPIO_Pin_0|GPIO_Pin_1);
+//	//PF0,PF1
+	GPIO_InitTypeDef GPIO_InitStructure_PF;
+	GPIO_InitStructure_PF.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1;                       
+	GPIO_InitStructure_PF.GPIO_Speed = GPIO_Speed_50MHz; 
+	GPIO_InitStructure_PF.GPIO_Mode = GPIO_Mode_IN;	
+//	GPIO_InitStructure_PF.GPIO_Mode = GPIO_Mode_AF;	
+//	GPIO_InitStructure_PF.GPIO_Mode = GPIO_Mode_OUT;
+//	GPIO_InitStructure_PF.GPIO_OType=GPIO_OType_PP;
+//	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_UP;
+	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_DOWN;
+//	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOF, &GPIO_InitStructure_PF);
+//	GPIO_SetBits(GPIOF, GPIO_Pin_0|GPIO_Pin_1);
 	
 	//PA0不用配置，已经设置成了中断
 	
@@ -289,6 +290,7 @@ void CfgALLPins4StopMode()
 	GPIO_InitStructure_PA4.GPIO_OType=GPIO_OType_PP;
 	GPIO_InitStructure_PA4.GPIO_PuPd=GPIO_PuPd_UP;
 	GPIO_Init(GPIOA, &GPIO_InitStructure_PA4);
+	GPIO_SetBits(GPIOA,GPIO_Pin_4);
 	
 	//PA5
 	GPIO_InitTypeDef GPIO_InitStructure_PA5;
@@ -354,7 +356,7 @@ void CfgALLPins4StopMode()
 //	GPIO_InitStructure_PB11.GPIO_OType=GPIO_OType_PP;
 	GPIO_InitStructure_PB11.GPIO_PuPd=GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOB, &GPIO_InitStructure_PB11);
-	GPIO_SetBits(GPIOB,GPIO_Pin_11);
+//	GPIO_SetBits(GPIOB,GPIO_Pin_11);
 	
 	//PA7,PA8,PA11,PA12,PA15
 	GPIO_InitTypeDef GPIO_InitStructure_PA_7_8_11_12_15;
@@ -385,10 +387,9 @@ void CfgALLPins4StopMode()
 	GPIO_Init(GPIOB, &GPIO_InitStructure_PB_0_2_3_4_5_6_7_12_13_14_15);
 }
 
-
-
 void init_global_variant()
 {
+	b_check_BAT_ok=FALSE;
 	switch_mode_cnt=0;
 	b_check_bnt_release=FALSE;
 	release_btn_cnt=0;
@@ -435,16 +436,14 @@ LED_STATE Check_Bat()
 {
 	uint16_t result;
 	result=RegularConvData_Tab[0];
-	if(result<3003) //如果电压小于2.2v,没电了 ，直接进入低功耗
-	{
-		//led_state=LED_RED_SOLID;
-		record_dateTime(CODE_LOW_POWER);
-		return LED_RED_SOLID;
+	if(result<3003) //如果电压小于2.2v,没电了 ，直接进入低功耗  3003
+	{ 
+		return LED_RED_SOLID_NO_POWER;
 	}
 	else if(result>=3003&&result<3549)  //2.2-2.6 ，提醒用户电量不足了
 	{
 		//led_state=LED_RED_FLASH;
-		return LED_RED_FLASH;
+		return LED_RED_FLASH_LOW_POWER;
 	}
 	else if(result>=3549)
 	{
@@ -458,7 +457,6 @@ LED_STATE Check_Bat()
 		return LED_NONE;
 	}
 }
-
 
 
 void key_led_task(void)
@@ -476,7 +474,7 @@ void key_led_task(void)
 	{
 		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)==0)
 		{
-			if(wakeup_Cnt==5)
+			if(wakeup_Cnt==2)
 			{
 				wakeup_Cnt=0;
 //				b_KeyWkUP_InterrupHappened=FALSE;  //清除中断发生标志
@@ -516,60 +514,65 @@ void key_led_task(void)
 	//按键被按下，检查电池电压
 	if(key_state==KEY_WAKE_UP)
 	{
-		//b_check_bat=TRUE;
-		//if(b_Is_PCB_PowerOn)
-		{
-			if(RegularConvData_Tab[0]>3003)
-			{
-				if(RegularConvData_Tab[0]>3549)
-				{
-					//TODO  这个需要一个标志位表示可以开机
-//					set_led(LED_GREEN);
-					b_check_BAT_ok=TRUE;
-				}
-				
-				show_mode_LED();
-				
-				led_state=Check_Bat();
-				
-				//记录开机时间
-				record_dateTime(CODE_SYSTEM_POWER_ON);
-				
-				Motor_PWM_Freq_Dudy_Set(1,100,80);
-				Motor_PWM_Freq_Dudy_Set(2,100,80);
-				//Motor_PWM_Freq_Dudy_Set(3,100,80);
-				Delay_ms(500);
-				Motor_PWM_Freq_Dudy_Set(1,100,0);
-				Motor_PWM_Freq_Dudy_Set(2,100,0);
-				//Motor_PWM_Freq_Dudy_Set(3,100,0);
-				
-				key_state=KEY_UPING;
-				mcu_state=POWER_ON;
-			}
-			else
-			{
-				set_led(LED_CLOSE,TRUE);
-				set_led(LED_YELLOW,TRUE);
-				for(int i=0;i<5;i++)
-				{
-					Motor_PWM_Freq_Dudy_Set(1,100,0);
-					Motor_PWM_Freq_Dudy_Set(2,100,0);
-//					Motor_PWM_Freq_Dudy_Set(3,100,0);
-					Delay_ms(500);
-					Motor_PWM_Freq_Dudy_Set(1,100,50);
-					Motor_PWM_Freq_Dudy_Set(2,100,50);
-//					Motor_PWM_Freq_Dudy_Set(3,100,50);
-					Delay_ms(500);
-					IWDG_Feed();
-				}
-				mcu_state=POWER_OFF;
-				
-				//进入stop模式
-				EnterStopMode();
-				//唤醒之后重新初始化
-				init_system_afterWakeUp();
-			}
-		}
+		led_state=Check_Bat();
+		key_state=KEY_UPING;
+		
+#if 0
+//		//b_check_bat=TRUE;
+//		//if(b_Is_PCB_PowerOn)
+//		{
+//			if(RegularConvData_Tab[0]>3003)
+//			{
+//				if(RegularConvData_Tab[0]>3549)
+//				{
+//					//TODO  这个需要一个标志位表示可以开机
+////					set_led(LED_GREEN);
+//					b_check_BAT_ok=TRUE;
+//				}
+////				
+////				show_mode_LED();
+//				
+//				led_state=Check_Bat();
+//				
+//				//记录开机时间
+//				record_dateTime(CODE_SYSTEM_POWER_ON);
+//				
+//				Motor_PWM_Freq_Dudy_Set(1,100,80);
+//				Motor_PWM_Freq_Dudy_Set(2,100,80);
+//				//Motor_PWM_Freq_Dudy_Set(3,100,80);
+//				Delay_ms(500);
+//				Motor_PWM_Freq_Dudy_Set(1,100,0);
+//				Motor_PWM_Freq_Dudy_Set(2,100,0);
+//				//Motor_PWM_Freq_Dudy_Set(3,100,0);
+//				
+//				key_state=KEY_UPING;
+//				mcu_state=POWER_ON;
+//			}
+//			else
+//			{
+//				set_led(LED_CLOSE,TRUE);
+//				set_led(LED_YELLOW,TRUE);
+//				for(int i=0;i<5;i++)
+//				{
+//					Motor_PWM_Freq_Dudy_Set(1,100,0);
+//					Motor_PWM_Freq_Dudy_Set(2,100,0);
+////					Motor_PWM_Freq_Dudy_Set(3,100,0);
+//					Delay_ms(500);
+//					Motor_PWM_Freq_Dudy_Set(1,100,50);
+//					Motor_PWM_Freq_Dudy_Set(2,100,50);
+////					Motor_PWM_Freq_Dudy_Set(3,100,50);
+//					Delay_ms(500);
+//					IWDG_Feed();
+//				}
+//				mcu_state=POWER_OFF;
+//				
+//				//进入stop模式
+//				EnterStopMode();
+//				//唤醒之后重新初始化
+//				init_system_afterWakeUp();
+//			}
+//		}
+#endif
 	}
 
 	//IWDG_Feed();   //喂狗

@@ -428,25 +428,21 @@ void bat_check()
 {
 	if(mcu_state==POWER_ON)
 	{
-		if(led_state==LED_NONE)
-		{
-			//do nothing
-		}
-		
-		if(led_state==LED_RED_SOLID) //关机
+		if(led_state==LED_RED_SOLID_NO_POWER) //关机
 		{
 			set_led(LED_CLOSE,TRUE);
 			set_led(LED_YELLOW,TRUE);
-		
+//			
+////			//记录关机
+////			record_dateTime(CODE_NO_POWER); //没电开机，不用记录
 			for(uint8_t i=0;i<5;i++)
 			{
-				Motor_PWM_Freq_Dudy_Set(1,100,0);
-				Motor_PWM_Freq_Dudy_Set(2,100,0);
-				Delay_ms(500);
-				//IWDG_Feed();
 				Motor_PWM_Freq_Dudy_Set(1,100,50);
 				Motor_PWM_Freq_Dudy_Set(2,100,50);
-
+				Delay_ms(500);
+				//IWDG_Feed();
+				Motor_PWM_Freq_Dudy_Set(1,100,0);
+				Motor_PWM_Freq_Dudy_Set(2,100,0);
 				Delay_ms(500);
 				IWDG_Feed();
 			}
@@ -454,20 +450,30 @@ void bat_check()
 			init_system_afterWakeUp();
 		}
 		
-		if(led_state==LED_RED_FLASH)
+		if(led_state==LED_RED_FLASH_LOW_POWER)
 		{
-			if(led_high_cnt==10)
+			if(led_high_cnt==5)
 			{
 				set_led(LED_CLOSE,TRUE);
-				if(led_low_cnt==10)
+				if(led_low_cnt==5)
 				{
 					led_high_cnt=0;
 					led_low_cnt=0;
-					if(flash_cnt==5)
+					if(flash_cnt==4)  //黄灯闪5下然后常量
 					{
 						led_state=LED_NONE;
 						flash_cnt=0;
-						show_mode_LED();
+						show_mode_LED();  //显示模式灯	
+						
+						Motor_PWM_Freq_Dudy_Set(1,100,50);
+						Motor_PWM_Freq_Dudy_Set(2,100,50);
+						Delay_ms(500);
+						Motor_PWM_Freq_Dudy_Set(1,100,0);
+						Motor_PWM_Freq_Dudy_Set(2,100,0);
+						
+						b_check_BAT_ok=TRUE;
+						//记录开机时间
+						record_dateTime(CODE_SYSTEM_POWER_ON);
 					}
 					else
 					{
@@ -486,10 +492,28 @@ void bat_check()
 				led_high_cnt++;
 			}
 		}
+		
+		if(led_state==LED_GREEN_SOLID)
+		{
+			show_mode_LED();  //显示模式灯
+			led_state=LED_NONE;
+			
+			//记录开机时间
+			record_dateTime(CODE_SYSTEM_POWER_ON);
+			
+			//马达震动
+			Motor_PWM_Freq_Dudy_Set(1,100,80);
+			Motor_PWM_Freq_Dudy_Set(2,100,80);
+			Delay_ms(500);
+			Motor_PWM_Freq_Dudy_Set(1,100,0);
+			Motor_PWM_Freq_Dudy_Set(2,100,0);
+			
+			b_check_BAT_ok=TRUE;
+		}
 	}
 	os_delay_ms(TASK_BAT_CHECK, 50);
 }
-
+#if 0
 ////采集ADS115的ADC值
 //void adc_value_sample()
 //{
@@ -586,7 +610,7 @@ void bat_check()
 
 //	os_delay_ms(TASK_THERMAL_CHECK, 100);
 //}
-
+#endif
 
 /*******************************************************************************
 ** 函数名称: get_switch_mode
@@ -622,8 +646,12 @@ void get_switch_mode()
 					b_check_bnt_release=FALSE;
 					release_btn_cnt=0;
 
+					//波形重新初始化，关闭马达
 					init_PWMState();
 					state=LOAD_PARA;
+					Motor_PWM_Freq_Dudy_Set(1,100,0);
+					Motor_PWM_Freq_Dudy_Set(2,100,0);
+					
 						//选择模式灯
 					switch(mode)
 					{
@@ -648,15 +676,13 @@ void get_switch_mode()
 						default:
 							break;
 					}	
-				
-					//震动马达
-					Motor_PWM_Freq_Dudy_Set(1,100,0);
-					Motor_PWM_Freq_Dudy_Set(2,100,0);
-					}
-					else
-					{
-						release_btn_cnt++;
-					}
+					
+					
+				}
+				else
+				{
+					release_btn_cnt++;
+				}
 			}
 		}
 	}
@@ -941,7 +967,9 @@ void check_selectedMode_ouputPWM()
 //	static uint16_t pressure_result; 
 	#ifdef _DEBUG
 	#else
+//	if(mcu_state==POWER_ON&&b_check_BAT_ok==TRUE)
 	if(mcu_state==POWER_ON)
+//	if(1==0)
 	#endif
 	{
 		//1.从flash中加载参数到内存
@@ -1121,21 +1149,22 @@ void check_selectedMode_ouputPWM()
 			set_led(LED_CLOSE,TRUE);
 			set_led(LED_YELLOW,TRUE);
 			for(uint8_t i=0;i<5;i++)
-			//for(uint8_t i=0;i<3;i++)
 			{
 				//set_led(LED_CLOSE);
-				Motor_PWM_Freq_Dudy_Set(1,100,0);
-				Motor_PWM_Freq_Dudy_Set(2,100,0);
+				Motor_PWM_Freq_Dudy_Set(1,100,50);
+				Motor_PWM_Freq_Dudy_Set(2,100,50);
 //				Motor_PWM_Freq_Dudy_Set(3,100,0);
 				Delay_ms(500);
 				//IWDG_Feed(); 
 				//set_led(LED_RED);
-				Motor_PWM_Freq_Dudy_Set(1,100,50);
-				Motor_PWM_Freq_Dudy_Set(2,100,50);
-//				Motor_PWM_Freq_Dudy_Set(3,100,50);
+				Motor_PWM_Freq_Dudy_Set(1,100,0);
+				Motor_PWM_Freq_Dudy_Set(2,100,0);
 				Delay_ms(500);
 				IWDG_Feed();
 			}
+			Motor_PWM_Freq_Dudy_Set(1,100,0);
+			Motor_PWM_Freq_Dudy_Set(2,100,0);
+			
 			EnterStopMode();
 			init_system_afterWakeUp();
 		}
