@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\STM32F071.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\STM32F071.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Nov 15 16:06:43 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Nov 28 09:14:45 2018
 <BR><P>
 <H3>Maximum Stack Usage =        852 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -408,7 +408,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FlashReadWord
 </UL>
 
-<P><STRONG><a name="[2c]"></a>check_selectedMode_ouputPWM</STRONG> (Thumb, 646 bytes, Stack size 464 bytes, comm_task.o(.text))
+<P><STRONG><a name="[2c]"></a>check_selectedMode_ouputPWM</STRONG> (Thumb, 638 bytes, Stack size 464 bytes, comm_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 656<LI>Call Chain = check_selectedMode_ouputPWM &rArr; init_system_afterWakeUp &rArr; init_task &rArr; UARTInit &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trans_xmmHg_2_adc_value
@@ -417,7 +417,6 @@ Global Symbols
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_PWM_Freq_Dudy_Set
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FlashRead
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_ms
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_Bat
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FillUpPWMbuffer
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckFlashData
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PaintPWM
@@ -436,27 +435,27 @@ Global Symbols
 <P><STRONG><a name="[2a]"></a>CMD_ProcessTask</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, comm_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 852<LI>Call Chain = CMD_ProcessTask &rArr; ModuleUnPackFrame &rArr; protocol_module_process &rArr; send_prameter_fram1_to_PC &rArr; CheckFlashData &rArr; ResetParameter &rArr; FlashWrite &rArr; FLASH_ProgramWord &rArr; FLASH_WaitForLastOperation
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReceiveData
+<BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReceiveData
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModuleUnPackFrame
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;os_delay_ms
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> app.o(.text)
 </UL>
-<P><STRONG><a name="[7e]"></a>CfgPA0ASWFI</STRONG> (Thumb, 102 bytes, Stack size 32 bytes, key_led_task.o(.text))
+<P><STRONG><a name="[7d]"></a>CfgPA0ASWFI</STRONG> (Thumb, 102 bytes, Stack size 32 bytes, key_led_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = CfgPA0ASWFI &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SYSCFG_EXTILineConfig
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI_Init
+<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SYSCFG_EXTILineConfig
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnterStopMode
 </UL>
 
-<P><STRONG><a name="[86]"></a>Check_wakeUpKey_pressed</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, key_led_task.o(.text), UNUSED)
+<P><STRONG><a name="[85]"></a>Check_wakeUpKey_pressed</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, key_led_task.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 </UL>
@@ -464,8 +463,8 @@ Global Symbols
 <P><STRONG><a name="[10]"></a>EXTI0_1_IRQHandler</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, key_led_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = EXTI0_1_IRQHandler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI_GetITStatus
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI_ClearFlag
+<BR>[Calls]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI_GetITStatus
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI_ClearFlag
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f0xx.o(RESET)
 </UL>
@@ -484,32 +483,32 @@ Global Symbols
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[89]"></a>CfgALLPins4StopMode</STRONG> (Thumb, 370 bytes, Stack size 128 bytes, key_led_task.o(.text))
+<P><STRONG><a name="[88]"></a>CfgALLPins4StopMode</STRONG> (Thumb, 370 bytes, Stack size 128 bytes, key_led_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 148<LI>Call Chain = CfgALLPins4StopMode &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Cmd
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_Cmd
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DMACmd
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Cmd
+<BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Cmd
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_Cmd
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DMACmd
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Cmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnterStopMode
 </UL>
 
-<P><STRONG><a name="[8f]"></a>init_global_variant</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, key_led_task.o(.text))
+<P><STRONG><a name="[8e]"></a>init_global_variant</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, key_led_task.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnterStopMode
 </UL>
 
 <P><STRONG><a name="[46]"></a>EnterStopMode</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, key_led_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 156<LI>Call Chain = EnterStopMode &rArr; CfgALLPins4StopMode &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
-<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PWR_EnterSTOPMode
-<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_global_variant
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PWR_EnterSTOPMode
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_global_variant
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_PWMState
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
@@ -518,17 +517,16 @@ Global Symbols
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[7c]"></a>Check_Bat</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, key_led_task.o(.text))
+<P><STRONG><a name="[90]"></a>Check_Bat</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, key_led_task.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
-<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
 </UL>
 
 <P><STRONG><a name="[2b]"></a>key_led_task</STRONG> (Thumb, 152 bytes, Stack size 16 bytes, key_led_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = key_led_task &rArr; init_system_afterWakeUp &rArr; init_task &rArr; UARTInit &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;record_dateTime
+<BR>[Calls]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_Bat
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;record_dateTime
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_Bat
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_PWMState
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;os_delay_ms
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_system_afterWakeUp
@@ -703,7 +701,7 @@ Global Symbols
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_RTC_record_numbers
 </UL>
 
-<P><STRONG><a name="[a9]"></a>send_RTC_SYN_finish</STRONG> (Thumb, 44 bytes, Stack size 16 bytes, protocol_module.o(.text))
+<P><STRONG><a name="[a9]"></a>send_RTC_SYN_finish</STRONG> (Thumb, 42 bytes, Stack size 16 bytes, protocol_module.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = send_RTC_SYN_finish &rArr; fifoWriteData
 </UL>
 <BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifoWriteData
@@ -757,7 +755,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;protocol_module_process
 </UL>
 
-<P><STRONG><a name="[64]"></a>protocol_module_process</STRONG> (Thumb, 150 bytes, Stack size 8 bytes, protocol_module.o(.text))
+<P><STRONG><a name="[64]"></a>protocol_module_process</STRONG> (Thumb, 152 bytes, Stack size 8 bytes, protocol_module.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 820<LI>Call Chain = protocol_module_process &rArr; send_prameter_fram1_to_PC &rArr; CheckFlashData &rArr; ResetParameter &rArr; FlashWrite &rArr; FLASH_ProgramWord &rArr; FLASH_WaitForLastOperation
 </UL>
 <BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_RTC
@@ -817,7 +815,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[65]"></a>delay_ms</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, delay.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_wakeUpKey_pressed
+<BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_wakeUpKey_pressed
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_ms
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModuleUnPackFrame
 <LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TaskDataSend
@@ -856,7 +854,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b4]"></a>Buf2Write</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, cmd_receive.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReceiveData
+<BR><BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReceiveData
 </UL>
 
 <P><STRONG><a name="[62]"></a>Buf2Read</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, cmd_receive.o(.text))
@@ -867,7 +865,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ModuleUnPackFrame
 </UL>
 
-<P><STRONG><a name="[7d]"></a>ReceiveData</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, cmd_receive.o(.text))
+<P><STRONG><a name="[7c]"></a>ReceiveData</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, cmd_receive.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = ReceiveData &rArr; GetUartReceiverResidualCnt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetUartReceiverResidualCnt
@@ -884,11 +882,11 @@ Global Symbols
 <LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_Init
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_DeInit
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Cmd
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_Cmd
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Cmd
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_Cmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_task
 </UL>
@@ -902,14 +900,14 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_GetCurrDataCounter
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReceiveData
+<BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReceiveData
 </UL>
 
 <P><STRONG><a name="[bb]"></a>I2C_uConfiguration</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, i2c.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = I2C_uConfiguration &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_honeywell_sensor
 </UL>
@@ -917,7 +915,7 @@ Global Symbols
 <P><STRONG><a name="[bc]"></a>I2C_SDA_OUT</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, i2c.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = I2C_SDA_OUT &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_RecAck
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_SendNak
@@ -928,7 +926,7 @@ Global Symbols
 <P><STRONG><a name="[bd]"></a>I2C_SDA_IN</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, i2c.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = I2C_SDA_IN &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_RecByte
 <LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_RecAck
@@ -1052,8 +1050,8 @@ Global Symbols
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ITConfig
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearFlag
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
 </UL>
 <BR>[Called By]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;os_init
@@ -1061,11 +1059,11 @@ Global Symbols
 
 <P><STRONG><a name="[ca]"></a>Init_PWRSAVE</STRONG> (Thumb, 42 bytes, Stack size 16 bytes, hardware.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 
 <P><STRONG><a name="[cc]"></a>Init_KEY_WAKEUP</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, hardware.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<BR><BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 
 <P><STRONG><a name="[69]"></a>set_led</STRONG> (Thumb, 104 bytes, Stack size 24 bytes, hardware.o(.text))
@@ -1073,7 +1071,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_common_switch8
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;show_mode_LED
 <LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_switch_mode
@@ -1093,7 +1091,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = Init_LED &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 </UL>
@@ -1102,7 +1100,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = Init_PWR_SAVE &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 </UL>
@@ -1110,7 +1108,7 @@ Global Symbols
 <P><STRONG><a name="[d0]"></a>Init_KEY_MODE</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, hardware.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = Init_KEY_MODE &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 </UL>
@@ -1128,12 +1126,12 @@ Global Symbols
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_ChannelConfig
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_Init
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_DeInit
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_Cmd
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DMACmd
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Cmd
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_Cmd
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DMACmd
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Cmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 </UL>
@@ -1146,7 +1144,7 @@ Global Symbols
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_PWR_SAVE
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_LED
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_RecordPage
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_task
 </UL>
@@ -1168,8 +1166,8 @@ Global Symbols
 <P><STRONG><a name="[150]"></a>read_half_word_buf_from_eeprom</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, hardware.o(.text), UNUSED)
 
 <P><STRONG><a name="[db]"></a>Key_WakeUp_Init</STRONG> (Thumb, 30 bytes, Stack size 16 bytes, hardware.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<BR><BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 
 <P><STRONG><a name="[59]"></a>Motor_PWM_Init</STRONG> (Thumb, 82 bytes, Stack size 24 bytes, motor_pwm.o(.text))
@@ -1177,8 +1175,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_PWM_Config
 <LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_task
 </UL>
@@ -1203,7 +1201,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_GetTime
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_GetDate
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;record_dateTime
+<BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_RTC
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;record_dateTime
 </UL>
 
 <P><STRONG><a name="[151]"></a>chage_to_RCT_month</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, rtc.o(.text), UNUSED)
@@ -1217,19 +1216,20 @@ Global Symbols
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_LSEConfig
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_GetFlagStatus
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PWR_BackupAccessCmd
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_RTC
 </UL>
 
-<P><STRONG><a name="[af]"></a>Set_RTC</STRONG> (Thumb, 98 bytes, Stack size 32 bytes, rtc.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = Set_RTC &rArr; RTC_SetTime &rArr; RTC_WaitForSynchro
+<P><STRONG><a name="[af]"></a>Set_RTC</STRONG> (Thumb, 158 bytes, Stack size 40 bytes, rtc.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = Set_RTC &rArr; RTC_SetTime &rArr; RTC_WaitForSynchro
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_SetTime
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_SetDate
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Init
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PWR_BackupAccessCmd
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Config
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_DataTime
 </UL>
 <BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;protocol_module_process
 </UL>
@@ -1374,7 +1374,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphResetCmd
 </UL>
 
-<P><STRONG><a name="[82]"></a>GPIO_Init</STRONG> (Thumb, 112 bytes, Stack size 20 bytes, stm32f0xx_gpio.o(.text))
+<P><STRONG><a name="[81]"></a>GPIO_Init</STRONG> (Thumb, 112 bytes, Stack size 20 bytes, stm32f0xx_gpio.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Key_WakeUp_Init
@@ -1387,8 +1387,8 @@ Global Symbols
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_SDA_IN
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_SDA_OUT
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_uConfiguration
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTInit
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_PWM_Init
 </UL>
@@ -1399,7 +1399,7 @@ Global Symbols
 
 <P><STRONG><a name="[6e]"></a>GPIO_ReadInputDataBit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f0xx_gpio.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_key_status
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_wakeUpKey_pressed
+<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check_wakeUpKey_pressed
 <LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
 <LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_switch_mode
 </UL>
@@ -1410,8 +1410,8 @@ Global Symbols
 
 <P><STRONG><a name="[157]"></a>GPIO_ReadOutputData</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f0xx_gpio.o(.text), UNUSED)
 
-<P><STRONG><a name="[8e]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f0xx_gpio.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
+<P><STRONG><a name="[8d]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f0xx_gpio.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_led
 </UL>
 
@@ -1510,27 +1510,27 @@ Global Symbols
 
 <P><STRONG><a name="[16f]"></a>RCC_BackupResetCmd</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, stm32f0xx_rcc.o(.text), UNUSED)
 
-<P><STRONG><a name="[7f]"></a>RCC_AHBPeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_rcc.o(.text))
+<P><STRONG><a name="[7e]"></a>RCC_AHBPeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_rcc.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Key_WakeUp_Init
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_ADC1
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_uConfiguration
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_hardware
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTInit
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_PWM_Init
 </UL>
 
-<P><STRONG><a name="[81]"></a>RCC_APB2PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_rcc.o(.text))
+<P><STRONG><a name="[80]"></a>RCC_APB2PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_rcc.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_ADC1
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_tim
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
 </UL>
 
-<P><STRONG><a name="[80]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_rcc.o(.text))
+<P><STRONG><a name="[7f]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_rcc.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_Config
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_PWM_Config
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTInit
 <LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnterStopMode
 </UL>
@@ -1559,11 +1559,11 @@ Global Symbols
 
 <P><STRONG><a name="[173]"></a>RCC_ClearITPendingBit</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f0xx_rcc.o(.text), UNUSED)
 
-<P><STRONG><a name="[85]"></a>NVIC_Init</STRONG> (Thumb, 70 bytes, Stack size 12 bytes, stm32f0xx_misc.o(.text))
+<P><STRONG><a name="[84]"></a>NVIC_Init</STRONG> (Thumb, 70 bytes, Stack size 12 bytes, stm32f0xx_misc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = NVIC_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_tim
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
 </UL>
 
 <P><STRONG><a name="[174]"></a>NVIC_SystemLPConfig</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_misc.o(.text), UNUSED)
@@ -1592,8 +1592,8 @@ Global Symbols
 
 <P><STRONG><a name="[177]"></a>USART_ClockStructInit</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32f0xx_usart.o(.text), UNUSED)
 
-<P><STRONG><a name="[8d]"></a>USART_Cmd</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f0xx_usart.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
+<P><STRONG><a name="[8c]"></a>USART_Cmd</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f0xx_usart.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTInit
 </UL>
 
@@ -1947,9 +1947,9 @@ Global Symbols
 
 <P><STRONG><a name="[1e6]"></a>DMA_StructInit</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f0xx_dma.o(.text), UNUSED)
 
-<P><STRONG><a name="[8a]"></a>DMA_Cmd</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f0xx_dma.o(.text))
+<P><STRONG><a name="[89]"></a>DMA_Cmd</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f0xx_dma.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_ADC1
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTInit
 </UL>
 
@@ -1986,7 +1986,7 @@ Global Symbols
 
 <P><STRONG><a name="[1f0]"></a>PWR_EnterSleepMode</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, stm32f0xx_pwr.o(.text), UNUSED)
 
-<P><STRONG><a name="[90]"></a>PWR_EnterSTOPMode</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, stm32f0xx_pwr.o(.text))
+<P><STRONG><a name="[8f]"></a>PWR_EnterSTOPMode</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, stm32f0xx_pwr.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnterStopMode
 </UL>
 
@@ -2145,9 +2145,9 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_ADC1
 </UL>
 
-<P><STRONG><a name="[8c]"></a>ADC_Cmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_adc.o(.text))
+<P><STRONG><a name="[8b]"></a>ADC_Cmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_adc.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_ADC1
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
 </UL>
 
 <P><STRONG><a name="[1fe]"></a>ADC_JitterCmd</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stm32f0xx_adc.o(.text), UNUSED)
@@ -2192,9 +2192,9 @@ Global Symbols
 
 <P><STRONG><a name="[20c]"></a>ADC_GetConversionValue</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f0xx_adc.o(.text), UNUSED)
 
-<P><STRONG><a name="[8b]"></a>ADC_DMACmd</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f0xx_adc.o(.text))
+<P><STRONG><a name="[8a]"></a>ADC_DMACmd</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f0xx_adc.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_ADC1
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgALLPins4StopMode
 </UL>
 
 <P><STRONG><a name="[d3]"></a>ADC_DMARequestModeConfig</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stm32f0xx_adc.o(.text))
@@ -2215,10 +2215,10 @@ Global Symbols
 
 <P><STRONG><a name="[211]"></a>EXTI_DeInit</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f0xx_exti.o(.text), UNUSED)
 
-<P><STRONG><a name="[84]"></a>EXTI_Init</STRONG> (Thumb, 102 bytes, Stack size 8 bytes, stm32f0xx_exti.o(.text))
+<P><STRONG><a name="[83]"></a>EXTI_Init</STRONG> (Thumb, 102 bytes, Stack size 8 bytes, stm32f0xx_exti.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = EXTI_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
 </UL>
 
 <P><STRONG><a name="[212]"></a>EXTI_StructInit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f0xx_exti.o(.text), UNUSED)
@@ -2227,11 +2227,11 @@ Global Symbols
 
 <P><STRONG><a name="[214]"></a>EXTI_GetFlagStatus</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stm32f0xx_exti.o(.text), UNUSED)
 
-<P><STRONG><a name="[88]"></a>EXTI_ClearFlag</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f0xx_exti.o(.text))
+<P><STRONG><a name="[87]"></a>EXTI_ClearFlag</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f0xx_exti.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI0_1_IRQHandler
 </UL>
 
-<P><STRONG><a name="[87]"></a>EXTI_GetITStatus</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32f0xx_exti.o(.text))
+<P><STRONG><a name="[86]"></a>EXTI_GetITStatus</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32f0xx_exti.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI0_1_IRQHandler
 </UL>
 
@@ -2245,10 +2245,10 @@ Global Symbols
 
 <P><STRONG><a name="[219]"></a>SYSCFG_I2CFastModePlusConfig</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f0xx_syscfg.o(.text), UNUSED)
 
-<P><STRONG><a name="[83]"></a>SYSCFG_EXTILineConfig</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, stm32f0xx_syscfg.o(.text))
+<P><STRONG><a name="[82]"></a>SYSCFG_EXTILineConfig</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, stm32f0xx_syscfg.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SYSCFG_EXTILineConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA0ASWFI
 </UL>
 
 <P><STRONG><a name="[21a]"></a>SYSCFG_BreakConfig</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f0xx_syscfg.o(.text), UNUSED)
@@ -2612,7 +2612,7 @@ Local Symbols
 <LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ARRPreloadConfig
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_PWM_Init
 </UL>

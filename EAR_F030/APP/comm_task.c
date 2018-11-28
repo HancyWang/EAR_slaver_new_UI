@@ -1081,7 +1081,6 @@ void check_selectedMode_ouputPWM()
 					
 				}
 			}
-			
 		}
 
 		//5.检测压力Ok,则预备输出波形，先定时waitBeforeStart这么长时间
@@ -1174,7 +1173,7 @@ void check_selectedMode_ouputPWM()
 		{
 			#ifdef _DEBUG
 			#else
-			led_state=Check_Bat();
+//			led_state=Check_Bat();  //没有必要检测电池电压，因为开机已经检测过了
 			#endif
 			
 			state=LOAD_PARA;
