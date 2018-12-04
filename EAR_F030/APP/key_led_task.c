@@ -241,8 +241,8 @@ void CfgALLPins4StopMode()
 //	GPIO_InitStructure_PF.GPIO_Mode = GPIO_Mode_AF;	
 //	GPIO_InitStructure_PF.GPIO_Mode = GPIO_Mode_OUT;
 //	GPIO_InitStructure_PF.GPIO_OType=GPIO_OType_PP;
-//	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_UP;
-	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_DOWN;
+	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_UP;
+//	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_DOWN;
 //	GPIO_InitStructure_PF.GPIO_PuPd=GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOF, &GPIO_InitStructure_PF);
 //	GPIO_SetBits(GPIOF, GPIO_Pin_0|GPIO_Pin_1);
@@ -286,11 +286,12 @@ void CfgALLPins4StopMode()
 	GPIO_InitTypeDef GPIO_InitStructure_PA4;
 	GPIO_InitStructure_PA4.GPIO_Pin = GPIO_Pin_4;                       
 	GPIO_InitStructure_PA4.GPIO_Speed = GPIO_Speed_50MHz;   
-	GPIO_InitStructure_PA4.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure_PA4.GPIO_OType=GPIO_OType_PP;
-	GPIO_InitStructure_PA4.GPIO_PuPd=GPIO_PuPd_UP;
+//	GPIO_InitStructure_PA4.GPIO_Mode = GPIO_Mode_OUT;
+//	GPIO_InitStructure_PA4.GPIO_OType=GPIO_OType_PP;
+//	GPIO_InitStructure_PA4.GPIO_PuPd=GPIO_PuPd_UP;
+	GPIO_InitStructure_PA4.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_InitStructure_PA4.GPIO_PuPd=GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOA, &GPIO_InitStructure_PA4);
-	GPIO_SetBits(GPIOA,GPIO_Pin_4);
 	
 	//PA5
 	GPIO_InitTypeDef GPIO_InitStructure_PA5;
@@ -311,10 +312,21 @@ void CfgALLPins4StopMode()
 	GPIO_InitStructure_PWM_1.GPIO_Mode = GPIO_Mode_IN;	
 //	GPIO_InitStructure_PWM_1.GPIO_Mode = GPIO_Mode_OUT;
 //	GPIO_InitStructure_PWM_1.GPIO_OType=GPIO_OType_PP;
-	GPIO_InitStructure_PWM_1.GPIO_PuPd=GPIO_PuPd_NOPULL;
-//	GPIO_InitStructure_PWM_1.GPIO_PuPd=GPIO_PuPd_DOWN;
+//	GPIO_InitStructure_PWM_1.GPIO_PuPd=GPIO_PuPd_NOPULL;
+	GPIO_InitStructure_PWM_1.GPIO_PuPd=GPIO_PuPd_DOWN;
 	GPIO_Init(GPIOA, &GPIO_InitStructure_PWM_1);
 	//GPIO_SetBits(GPIOA,GPIO_Pin_6|GPIO_Pin_7);
+	
+		//PWM2(PB1)
+	GPIO_InitTypeDef GPIO_InitStructure_PWM2;
+	GPIO_InitStructure_PWM2.GPIO_Pin = GPIO_Pin_1;                       
+	GPIO_InitStructure_PWM2.GPIO_Speed = GPIO_Speed_50MHz;       
+	GPIO_InitStructure_PWM2.GPIO_Mode = GPIO_Mode_IN;
+//	GPIO_InitStructure_PWM2.GPIO_OType=GPIO_OType_PP;
+//	GPIO_InitStructure_PWM2.GPIO_PuPd=GPIO_PuPd_NOPULL;
+	GPIO_InitStructure_PWM2.GPIO_PuPd=GPIO_PuPd_DOWN;
+	GPIO_Init(GPIOB, &GPIO_InitStructure_PWM2);
+	//GPIO_SetBits(GPIOB,GPIO_Pin_1);
 	
 		//PA9,PA10
 	GPIO_InitTypeDef GPIO_InitStructure_UART;
@@ -326,16 +338,7 @@ void CfgALLPins4StopMode()
 //	GPIO_InitStructure_UART.GPIO_PuPd=GPIO_PuPd_UP;
 	GPIO_Init(GPIOA, &GPIO_InitStructure_UART);
 	
-	//PWM2(PB1)
-	GPIO_InitTypeDef GPIO_InitStructure_PWM2;
-	GPIO_InitStructure_PWM2.GPIO_Pin = GPIO_Pin_1;                       
-	GPIO_InitStructure_PWM2.GPIO_Speed = GPIO_Speed_50MHz;       
-	GPIO_InitStructure_PWM2.GPIO_Mode = GPIO_Mode_IN;
-//	GPIO_InitStructure_PWM2.GPIO_OType=GPIO_OType_PP;
-	GPIO_InitStructure_PWM2.GPIO_PuPd=GPIO_PuPd_NOPULL;
-//	GPIO_InitStructure_PWM2.GPIO_PuPd=GPIO_PuPd_DOWN;
-	GPIO_Init(GPIOB, &GPIO_InitStructure_PWM2);
-	//GPIO_SetBits(GPIOB,GPIO_Pin_1);
+
 	
 	//PB8,PB9,PB10 LED
 	GPIO_InitTypeDef GPIO_InitStructure_LED;
