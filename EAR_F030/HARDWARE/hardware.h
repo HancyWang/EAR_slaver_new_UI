@@ -45,15 +45,15 @@
 #define YELLO_LED_PORT			GPIOB
 
 
-//开机按键	PA0
-#define KEY_DETECT_PIN    GPIO_Pin_0
-#define KEY_DETECT_PORT   GPIOA
+////开机按键	PA0
+//#define KEY_DETECT_PIN    GPIO_Pin_0
+//#define KEY_DETECT_PORT   GPIOA
 //PWR_SAVE	PA5
 #define KEY_PWR_SAVE_PIN  GPIO_Pin_5
 #define KEY_PWR_SAVE_PORT   GPIOA
-//按键模式	PA4
-#define KEY_MODE_PIN			GPIO_Pin_4
-#define KEY_MODE_PORT			GPIOA
+////按键模式	PA4
+//#define KEY_MODE_PIN			GPIO_Pin_4
+//#define KEY_MODE_PORT			GPIOA
 
 #define ADC1_DR_Address                0x40012440
 

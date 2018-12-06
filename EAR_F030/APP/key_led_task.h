@@ -13,6 +13,13 @@
 /***********************************
 * 全局变量
 ***********************************/
+
+#define KEY_WAKE_UP_PORT 	GPIOA
+#define KEY_WAKE_UP_PIN		GPIO_Pin_4
+
+#define KEY_MODE_PORT			GPIOA
+#define KEY_MODE_PIN			GPIO_Pin_0
+
 typedef enum
 {
 	POWER_ON,
@@ -46,7 +53,7 @@ typedef enum
 ***********************************/
 void key_led_task(void);
 void EnterStopMode(void);
-void CfgPA0ASWFI(void);
+void CfgPA4ASWFI(void);
 void CfgALLPins4StopMode(void);
 void init_system_afterWakeUp(void);
 //extern INT8U I2C_RecByte(void);

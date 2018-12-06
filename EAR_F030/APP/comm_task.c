@@ -437,8 +437,8 @@ void bat_check()
 ////			record_dateTime(CODE_NO_POWER); //没电开机，不用记录
 			for(uint8_t i=0;i<5;i++)
 			{
-				Motor_PWM_Freq_Dudy_Set(1,100,50);
-				Motor_PWM_Freq_Dudy_Set(2,100,50);
+				Motor_PWM_Freq_Dudy_Set(1,100,20);
+				Motor_PWM_Freq_Dudy_Set(2,100,20);
 				Delay_ms(500);
 				//IWDG_Feed();
 				Motor_PWM_Freq_Dudy_Set(1,100,0);
@@ -624,7 +624,8 @@ void get_switch_mode()
 {
 	if(mcu_state==POWER_ON||b_check_BAT_ok==TRUE)
 	{
-		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4)==0)  //按键按下了
+//		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4)==0)  //按键按下了
+		if(GPIO_ReadInputDataBit(KEY_MODE_PORT, KEY_MODE_PIN)==0)  //按键按下了
 		{
 			if(switch_mode_cnt==3)
 			{
@@ -994,7 +995,7 @@ void check_selectedMode_ouputPWM()
 //			state=CPY_PARA_TO_BUFFER;
 //		}
 		
-		//3.根据选择的模式将数据拷贝到pwm_buffer
+		//3.根据选择的模式将数据拷贝到pwm_buffer 
 		if(state==CPY_PARA_TO_BUFFER)  //根据选择的模式，将para填充到pwm_buffer中
 		{
 			uint8_t pwm_buffer[144];

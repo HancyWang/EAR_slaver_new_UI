@@ -107,7 +107,8 @@ extern uint8_t release_btn_cnt;
 ** 全局变量: 无
 ** 调用模块: 无
 *******************************************************************************/
-void CfgPA0ASWFI()
+//硬件错误，导致PA0和PA4必须对换
+void CfgPA4ASWFI()
 {
 	//时钟使能
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA|RCC_AHBPeriph_GPIOB|RCC_AHBPeriph_GPIOF,ENABLE);  
@@ -115,7 +116,7 @@ void CfgPA0ASWFI()
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE); 
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG,ENABLE); 
 	
-	
+	#if 0
 	//外部按键GPIOA初始化,PA0  
 	GPIO_InitTypeDef GPIO_InitStructure;  
 	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_0;  
@@ -124,6 +125,7 @@ void CfgPA0ASWFI()
 	GPIO_InitStructure.GPIO_PuPd=GPIO_PuPd_NOPULL;
 	GPIO_InitStructure.GPIO_Speed=GPIO_Speed_2MHz;  
 	GPIO_Init(GPIOA,&GPIO_InitStructure);  
+	
 
 	//将EXTI0指向PA0  
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA,EXTI_PinSource0);  
@@ -141,6 +143,32 @@ void CfgPA0ASWFI()
 	NVIC_InitStructure.NVIC_IRQChannelPriority=0x01;  
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;  
 	NVIC_Init(&NVIC_InitStructure);  
+	#endif
+	
+	//PA4 
+	GPIO_InitTypeDef GPIO_InitStructure;  
+	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_4;  
+	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_IN;  
+	GPIO_InitStructure.GPIO_PuPd=GPIO_PuPd_NOPULL;
+	GPIO_InitStructure.GPIO_Speed=GPIO_Speed_2MHz;  
+	GPIO_Init(GPIOA,&GPIO_InitStructure); 
+	
+	//将EXTI4指向PA4
+	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA,EXTI_PinSource4);  
+	//EXTI4中断线配置
+	EXTI_InitTypeDef EXTI_InitStructure;  
+	EXTI_InitStructure.EXTI_Line=EXTI_Line4;  
+	EXTI_InitStructure.EXTI_Mode=EXTI_Mode_Interrupt;  
+	EXTI_InitStructure.EXTI_Trigger=EXTI_Trigger_Falling;  
+	EXTI_InitStructure.EXTI_LineCmd=ENABLE;  
+	EXTI_Init(&EXTI_InitStructure);  
+	
+	//EXTI4中断向量配置  
+	NVIC_InitTypeDef NVIC_InitStructure;  
+	NVIC_InitStructure.NVIC_IRQChannel=EXTI4_15_IRQn;  
+	NVIC_InitStructure.NVIC_IRQChannelPriority=0x01;  
+	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;  
+	NVIC_Init(&NVIC_InitStructure);
 }
 
 
@@ -150,12 +178,36 @@ BOOL Check_wakeUpKey_pressed(void)
 	//uint32_t cnt=0;
 	while(TRUE)
 	{
-		//读取PA0的电平
-		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)==0)
+#if 0
+//		//读取PA0的电平
+//		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)==0)
+//		{
+//			//cnt++;
+//			delay_ms(10);
+//			if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)==0)
+//			{
+////				while(TRUE)
+////				{
+////					delay_ms(10);
+////					if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)==1)
+////					{
+////						return TRUE;
+////					}
+////				}
+//				return TRUE;
+//			}
+//		}
+//		else
+//		{
+//			return FALSE;
+//		}
+#endif
+		//读取PA4的电平
+		if(GPIO_ReadInputDataBit(KEY_WAKE_UP_PORT, KEY_WAKE_UP_PIN)==0)
 		{
 			//cnt++;
 			delay_ms(10);
-			if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)==0)
+			if(GPIO_ReadInputDataBit(KEY_WAKE_UP_PORT, KEY_WAKE_UP_PIN)==0)
 			{
 //				while(TRUE)
 //				{
@@ -167,11 +219,6 @@ BOOL Check_wakeUpKey_pressed(void)
 //				}
 				return TRUE;
 			}
-			//delay_ms(5);
-//			if(cnt>20)
-//			{
-//				return TRUE;
-//			}
 		}
 		else
 		{
@@ -180,35 +227,46 @@ BOOL Check_wakeUpKey_pressed(void)
 	}
 }
 
-void EXTI0_1_IRQHandler(void)
+//void EXTI0_1_IRQHandler(void)
+//{  
+//	if(EXTI_GetITStatus(EXTI_Line0)!=RESET)  
+//	{ 
+//		#if 0
+////		if(Check_wakeUpKey_pressed())
+////		{
+////			b_Is_PCB_PowerOn=!b_Is_PCB_PowerOn;		//每按一次，b_Is_PCB_PowerOn翻转一次状态
+////			if(b_Is_PCB_PowerOn==TRUE)
+////			{
+////				mcu_state=POWER_ON;	
+////				key_state=KEY_WAKE_UP;		
+////				state=LOAD_PARA;
+////				init_PWMState();
+////			}
+////			else
+////			{
+////				mcu_state=POWER_OFF;	
+////				key_state=KEY_STOP_MODE;
+////				state=LOAD_PARA;
+////				init_PWMState();
+////			}
+////		}
+//		#endif
+//		key_state=KEY_DOWNING;
+//		wakeup_Cnt=0;
+//	}  
+//	//EXTI_ClearITPendingBit(EXTI_Line0);
+//	EXTI_ClearFlag(EXTI_Line0);
+//} 
+
+void EXTI4_15_IRQHandler(void)
 {  
-	if(EXTI_GetITStatus(EXTI_Line0)!=RESET)  
+	if(EXTI_GetITStatus(EXTI_Line4)!=RESET)  
 	{ 
-		#if 0
-//		if(Check_wakeUpKey_pressed())
-//		{
-//			b_Is_PCB_PowerOn=!b_Is_PCB_PowerOn;		//每按一次，b_Is_PCB_PowerOn翻转一次状态
-//			if(b_Is_PCB_PowerOn==TRUE)
-//			{
-//				mcu_state=POWER_ON;	
-//				key_state=KEY_WAKE_UP;		
-//				state=LOAD_PARA;
-//				init_PWMState();
-//			}
-//			else
-//			{
-//				mcu_state=POWER_OFF;	
-//				key_state=KEY_STOP_MODE;
-//				state=LOAD_PARA;
-//				init_PWMState();
-//			}
-//		}
-		#endif
 		key_state=KEY_DOWNING;
 		wakeup_Cnt=0;
 	}  
 	//EXTI_ClearITPendingBit(EXTI_Line0);
-	EXTI_ClearFlag(EXTI_Line0);
+	EXTI_ClearFlag(EXTI_Line4);
 } 
 
 
@@ -282,16 +340,22 @@ void CfgALLPins4StopMode()
 	DMA_Cmd(UART_DMA_TX_CHANNEL, DISABLE);
 	USART_Cmd(UART, DISABLE);
 	
-	//PA4
-	GPIO_InitTypeDef GPIO_InitStructure_PA4;
-	GPIO_InitStructure_PA4.GPIO_Pin = GPIO_Pin_4;                       
-	GPIO_InitStructure_PA4.GPIO_Speed = GPIO_Speed_50MHz;   
-//	GPIO_InitStructure_PA4.GPIO_Mode = GPIO_Mode_OUT;
-//	GPIO_InitStructure_PA4.GPIO_OType=GPIO_OType_PP;
-//	GPIO_InitStructure_PA4.GPIO_PuPd=GPIO_PuPd_UP;
-	GPIO_InitStructure_PA4.GPIO_Mode = GPIO_Mode_IN;
-	GPIO_InitStructure_PA4.GPIO_PuPd=GPIO_PuPd_NOPULL;
-	GPIO_Init(GPIOA, &GPIO_InitStructure_PA4);
+	//PA4配成中断了，不用在配置了，这里将PA4改成PA0        //原因：硬件上的错误导致PA0和PA4必须对换
+//	GPIO_InitTypeDef GPIO_InitStructure_PA4;
+//	GPIO_InitStructure_PA4.GPIO_Pin = GPIO_Pin_4;                       
+//	GPIO_InitStructure_PA4.GPIO_Speed = GPIO_Speed_50MHz;   
+////	GPIO_InitStructure_PA4.GPIO_Mode = GPIO_Mode_OUT;
+////	GPIO_InitStructure_PA4.GPIO_OType=GPIO_OType_PP;
+////	GPIO_InitStructure_PA4.GPIO_PuPd=GPIO_PuPd_UP;
+//	GPIO_InitStructure_PA4.GPIO_Mode = GPIO_Mode_IN;
+//	GPIO_InitStructure_PA4.GPIO_PuPd=GPIO_PuPd_NOPULL;
+//	GPIO_Init(GPIOA, &GPIO_InitStructure_PA4);
+	GPIO_InitTypeDef GPIO_InitStructure_PA0;
+	GPIO_InitStructure_PA0.GPIO_Pin = GPIO_Pin_0;                       
+	GPIO_InitStructure_PA0.GPIO_Speed = GPIO_Speed_50MHz;   
+	GPIO_InitStructure_PA0.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_InitStructure_PA0.GPIO_PuPd=GPIO_PuPd_NOPULL;
+	GPIO_Init(GPIOA, &GPIO_InitStructure_PA0);
 	
 	//PA5
 	GPIO_InitTypeDef GPIO_InitStructure_PA5;
@@ -424,7 +488,7 @@ void EnterStopMode()
 	init_global_variant();
 	init_PWMState();
 	//配置中断
-	CfgPA0ASWFI();
+	CfgPA4ASWFI();
 	//换芯片了，不需要这条语句
 //	//I2C芯片ADS115进入power-down模式
 //	ADS115_enter_power_down_mode();
@@ -475,7 +539,8 @@ void key_led_task(void)
 	
 	if(key_state==KEY_DOWNING)
 	{
-		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)==0)
+//		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)==0)
+		if(GPIO_ReadInputDataBit(KEY_WAKE_UP_PORT, KEY_WAKE_UP_PIN)==0)
 		{
 			if(wakeup_Cnt==2)
 			{

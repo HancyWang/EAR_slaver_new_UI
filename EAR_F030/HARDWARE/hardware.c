@@ -172,15 +172,15 @@ void Init_PWRSAVE(void)
 //	*p_zeroPoint=sum/10;
 //}
 
-//PA0,KEY_WAKE_UP 用中断唤醒
-void Init_KEY_WAKEUP()  
-{
-	GPIO_InitTypeDef  GPIO_InitStructure;
-	
-	GPIO_InitStructure.GPIO_Pin = KEY_DETECT_PIN;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
-	GPIO_Init(KEY_DETECT_PORT, &GPIO_InitStructure);
-}
+////PA0,KEY_WAKE_UP 用中断唤醒
+//void Init_KEY_WAKEUP()  
+//{
+//	GPIO_InitTypeDef  GPIO_InitStructure;
+//	
+//	GPIO_InitStructure.GPIO_Pin = KEY_DETECT_PIN;
+//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+//	GPIO_Init(KEY_DETECT_PORT, &GPIO_InitStructure);
+//}
 
 void show_mode_LED()
 {
@@ -306,13 +306,13 @@ void init_hardware()
 //	return GPIO_ReadInputDataBit(EXP_DETECT_PORT, EXP_DETECT_PIN);
 //}
 
-//按键檢測脚狀態
-//TRUE：按下
-//FALSE:弹起
-BOOL get_key_status(void)
-{
-	return GPIO_ReadInputDataBit(KEY_DETECT_PORT, KEY_DETECT_PIN);
-}
+////按键檢測脚狀態
+////TRUE：按下
+////FALSE:弹起
+//BOOL get_key_status(void)
+//{
+//	return GPIO_ReadInputDataBit(KEY_DETECT_PORT, KEY_DETECT_PIN);
+//}
 
 //设置LED指示灯
 void set_led(LED_COLOR color,BOOL ON_OFF)
