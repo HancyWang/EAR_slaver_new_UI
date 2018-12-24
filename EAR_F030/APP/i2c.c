@@ -292,5 +292,5 @@ INT32U honeywell_readByte()
 	I2C_SendNak();
 	I2C_Stop();
 	return (data23_16<<16)+(data15_8<<8)+data7_0;
-//	return (data_staus<<24)+(data23_16<<16)+(data15_8<<8)+data7_0;
+	//return (data_staus<<24)+(data23_16<<16)+(data15_8<<8)+data7_0;
 }
