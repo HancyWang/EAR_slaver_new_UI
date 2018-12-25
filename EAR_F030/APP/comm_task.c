@@ -424,7 +424,7 @@ BOOL Is_timing_Xmillisec(uint32_t n_ms,uint8_t num)
 	return FALSE;
 }
 
-void bat_check()
+void led_show()
 {
 	if(mcu_state==POWER_ON)
 	{
@@ -511,7 +511,7 @@ void bat_check()
 			b_check_BAT_ok=TRUE;
 		}
 	}
-	os_delay_ms(TASK_BAT_CHECK, 50);
+	os_delay_ms(TASK_LED_SHOW, 50);
 }
 #if 0
 ////采集ADS115的ADC值
@@ -968,8 +968,8 @@ void check_selectedMode_ouputPWM()
 //	static uint16_t pressure_result; 
 	#ifdef _DEBUG
 	#else
-//	if(mcu_state==POWER_ON&&b_check_BAT_ok==TRUE)
-	if(mcu_state==POWER_ON)
+	if(mcu_state==POWER_ON&&b_check_BAT_ok==TRUE)
+//	if(mcu_state==POWER_ON)
 //	if(1==0)
 	#endif
 	{
@@ -1027,7 +1027,7 @@ void check_selectedMode_ouputPWM()
 		//4.检测压力
 		if(state==CHECK_PRESSURE) //检测压力
 		{
-//			if(b_getHoneywellZeroPoint)
+			if(b_getHoneywellZeroPoint)
 			{
 				if(CHECK_MODE_OUTPUT_PWM*checkPressAgain_cnt==60*1000)   //连续60s检测不到，进入POWER_OFF
 				{

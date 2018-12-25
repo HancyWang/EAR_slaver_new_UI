@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\STM32F071.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\STM32F071.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Dec 19 14:57:02 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Dec 25 15:24:12 2018
 <BR><P>
 <H3>Maximum Stack Usage =        852 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -64,12 +64,12 @@ Function Pointers
  <LI><a href="#[26]">USART2_IRQHandler</a> from startup_stm32f0xx.o(.text) referenced from startup_stm32f0xx.o(RESET)
  <LI><a href="#[b]">WWDG_IRQHandler</a> from startup_stm32f0xx.o(.text) referenced from startup_stm32f0xx.o(RESET)
  <LI><a href="#[33]">__main</a> from __main.o(!!!main) referenced from startup_stm32f0xx.o(.text)
- <LI><a href="#[2f]">bat_check</a> from comm_task.o(.text) referenced from app.o(.text)
  <LI><a href="#[2c]">check_selectedMode_ouputPWM</a> from comm_task.o(.text) referenced from app.o(.text)
  <LI><a href="#[2d]">get_switch_mode</a> from comm_task.o(.text) referenced from app.o(.text)
  <LI><a href="#[2e]">honeywell_sampling_data</a> from honeywell_sampling_data.o(.text) referenced from app.o(.text)
  <LI><a href="#[28]">init_task</a> from app.o(.text) referenced from main.o(.text)
  <LI><a href="#[2b]">key_led_task</a> from key_led_task.o(.text) referenced from app.o(.text)
+ <LI><a href="#[2f]">led_show</a> from comm_task.o(.text) referenced from app.o(.text)
 </UL>
 <P>
 <H3>
@@ -287,8 +287,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IWDG_ReloadCounter
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
-<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bat_check
+<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_show
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
 </UL>
 
 <P><STRONG><a name="[28]"></a>init_task</STRONG> (Thumb, 114 bytes, Stack size 8 bytes, app.o(.text))
@@ -346,8 +346,8 @@ Global Symbols
 <LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
 </UL>
 
-<P><STRONG><a name="[2f]"></a>bat_check</STRONG> (Thumb, 338 bytes, Stack size 24 bytes, comm_task.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = bat_check &rArr; init_system_afterWakeUp &rArr; init_task &rArr; UARTInit &rArr; USART_Init &rArr; RCC_GetClocksFreq
+<P><STRONG><a name="[2f]"></a>led_show</STRONG> (Thumb, 338 bytes, Stack size 24 bytes, comm_task.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = led_show &rArr; init_system_afterWakeUp &rArr; init_task &rArr; UARTInit &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;show_mode_LED
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_led
@@ -408,7 +408,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FlashReadWord
 </UL>
 
-<P><STRONG><a name="[2c]"></a>check_selectedMode_ouputPWM</STRONG> (Thumb, 638 bytes, Stack size 464 bytes, comm_task.o(.text))
+<P><STRONG><a name="[2c]"></a>check_selectedMode_ouputPWM</STRONG> (Thumb, 646 bytes, Stack size 464 bytes, comm_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 656<LI>Call Chain = check_selectedMode_ouputPWM &rArr; init_system_afterWakeUp &rArr; init_task &rArr; UARTInit &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trans_xmmHg_2_adc_value
@@ -477,9 +477,9 @@ Global Symbols
 <LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_task
 <LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
+<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_show
+<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
 <LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
-<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bat_check
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -511,9 +511,9 @@ Global Symbols
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CfgPA4ASWFI
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_PWMState
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
+<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_show
+<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
 <LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
-<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bat_check
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -687,9 +687,9 @@ Global Symbols
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;protocol_module_process
+<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_show
 <LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
 <LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
-<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bat_check
 </UL>
 
 <P><STRONG><a name="[a8]"></a>get_rtc_record_number</STRONG> (Thumb, 24 bytes, Stack size 16 bytes, protocol_module.o(.text))
@@ -796,8 +796,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
-<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bat_check
+<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_show
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
 </UL>
 
 <P><STRONG><a name="[44]"></a>delay_init</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, delay.o(.text))
@@ -1070,9 +1070,9 @@ Global Symbols
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;show_mode_LED
+<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_show
 <LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_switch_mode
 <LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
-<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bat_check
 </UL>
 
 <P><STRONG><a name="[6c]"></a>show_mode_LED</STRONG> (Thumb, 88 bytes, Stack size 8 bytes, hardware.o(.text))
@@ -1080,7 +1080,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_led
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bat_check
+<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_show
 </UL>
 
 <P><STRONG><a name="[cd]"></a>Init_LED</STRONG> (Thumb, 88 bytes, Stack size 32 bytes, hardware.o(.text))
@@ -1182,9 +1182,9 @@ Global Symbols
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
 </UL>
 <BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PaintPWM
+<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_show
 <LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_switch_mode
 <LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
-<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bat_check
 </UL>
 
 <P><STRONG><a name="[a7]"></a>Get_DataTime</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, rtc.o(.text))
@@ -1248,11 +1248,11 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
+<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_show
+<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_led_task
 <LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;honeywell_sampling_data
 <LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_switch_mode
 <LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_selectedMode_ouputPWM
-<LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bat_check
 <LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TaskDataSend
 <LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CMD_ProcessTask
 <LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;test_task

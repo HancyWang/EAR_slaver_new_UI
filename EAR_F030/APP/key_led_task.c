@@ -38,7 +38,8 @@
 /**********************************
 *宏定义
 ***********************************/
-
+#define BATTERY_NO_POWER_THRESHOLD 		3345  //3345对应2.45V
+#define BATTERY_LOW_POWER_THRESHOLD		3549  //3549对应2.6V
 /***********************************
 * 全局变量
 ***********************************/
@@ -503,16 +504,16 @@ LED_STATE Check_Bat()
 {
 	uint16_t result;
 	result=RegularConvData_Tab[0];
-	if(result<3003) //如果电压小于2.2v,没电了 ，直接进入低功耗  3003
+	if(result<BATTERY_NO_POWER_THRESHOLD) //如果电压小于2.2v,没电了 ，直接进入低功耗  3003
 	{ 
 		return LED_RED_SOLID_NO_POWER;
 	}
-	else if(result>=3003&&result<3549)  //2.2-2.6 ，提醒用户电量不足了
+	else if(result>=BATTERY_NO_POWER_THRESHOLD&&result<BATTERY_LOW_POWER_THRESHOLD)  //2.2-2.6 ，提醒用户电量不足了
 	{
 		//led_state=LED_RED_FLASH;
 		return LED_RED_FLASH_LOW_POWER;
 	}
-	else if(result>=3549)
+	else if(result>=BATTERY_LOW_POWER_THRESHOLD)
 	{
 		//solid green,常亮绿灯，表示电量充值
 		//led_state=LED_GREEN_SOLID;
