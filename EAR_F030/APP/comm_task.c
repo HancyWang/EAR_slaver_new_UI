@@ -81,6 +81,8 @@ static uint16_t* p_PWM_waitBetween_cnt;
 static uint16_t* p_PWM_waitAfter_cnt;
 static uint8_t* p_PWM_numOfCycle;
 static uint8_t* p_PWM_serial_cnt;
+static uint8_t* p_Motor_star_running_cnt;
+static BOOL* b_pre_startting_motor_finished;
 
 uint16_t PWM_waitBeforeStart_cnt=0;
 
@@ -103,6 +105,14 @@ uint8_t PWM3_numOfCycle=0;
 uint8_t PWM1_serial_cnt=0;
 uint8_t PWM2_serial_cnt=0;
 uint8_t PWM3_serial_cnt=0;
+
+
+uint8_t start_motor_running1_cnt=0;
+uint8_t start_motor_running2_cnt=0;
+uint8_t start_motor_running3_cnt=0;
+BOOL b_pre_startting_motor1=FALSE;
+BOOL b_pre_startting_motor2=FALSE;
+BOOL b_pre_startting_motor3=FALSE;
 
 //volatile CHCKMODE_OUTPUT_PWM state=LOAD_PARA;
 CHCKMODE_OUTPUT_PWM state=LOAD_PARA;
@@ -173,6 +183,14 @@ void init_PWMState(void)
 	PWM1_serial_cnt=0;
 	PWM2_serial_cnt=0;
 	PWM3_serial_cnt=0;
+	
+	start_motor_running1_cnt=0;
+	start_motor_running2_cnt=0;
+	start_motor_running3_cnt=0;
+	
+	b_pre_startting_motor1=FALSE;
+	b_pre_startting_motor2=FALSE;
+	b_pre_startting_motor3=FALSE;
 }
 
 void CalcCheckSum(UINT8* pPacket)
@@ -437,10 +455,13 @@ void led_show()
 ////			record_dateTime(CODE_NO_POWER); //没电开机，不用记录
 			for(uint8_t i=0;i<5;i++)
 			{
-				Motor_PWM_Freq_Dudy_Set(1,100,20);
-				Motor_PWM_Freq_Dudy_Set(2,100,20);
+				Motor_PWM_Freq_Dudy_Set(1,10000,65);
+				Motor_PWM_Freq_Dudy_Set(2,10000,65);
+//				Motor_PWM_Freq_Dudy_Set(1,100,20);
+//				Motor_PWM_Freq_Dudy_Set(2,100,20);
 				Delay_ms(500);
 				//IWDG_Feed();
+				
 				Motor_PWM_Freq_Dudy_Set(1,100,0);
 				Motor_PWM_Freq_Dudy_Set(2,100,0);
 				Delay_ms(500);
@@ -465,8 +486,10 @@ void led_show()
 						flash_cnt=0;
 						show_mode_LED();  //显示模式灯	
 						
-						Motor_PWM_Freq_Dudy_Set(1,100,50);
-						Motor_PWM_Freq_Dudy_Set(2,100,50);
+						Motor_PWM_Freq_Dudy_Set(1,20000,95);
+						Motor_PWM_Freq_Dudy_Set(2,20000,95);
+//						Motor_PWM_Freq_Dudy_Set(1,100,50);
+//						Motor_PWM_Freq_Dudy_Set(2,100,50);
 						Delay_ms(500);
 						Motor_PWM_Freq_Dudy_Set(1,100,0);
 						Motor_PWM_Freq_Dudy_Set(2,100,0);
@@ -502,8 +525,10 @@ void led_show()
 			record_dateTime(CODE_SYSTEM_POWER_ON);
 			
 			//马达震动
-			Motor_PWM_Freq_Dudy_Set(1,100,80);
-			Motor_PWM_Freq_Dudy_Set(2,100,80);
+			Motor_PWM_Freq_Dudy_Set(1,20000,95);
+			Motor_PWM_Freq_Dudy_Set(2,20000,95);
+//			Motor_PWM_Freq_Dudy_Set(1,100,80);
+//			Motor_PWM_Freq_Dudy_Set(2,100,80);
 			Delay_ms(500);
 			Motor_PWM_Freq_Dudy_Set(1,100,0);
 			Motor_PWM_Freq_Dudy_Set(2,100,0);
@@ -622,7 +647,7 @@ void led_show()
 *******************************************************************************/
 void get_switch_mode()
 {
-	if(mcu_state==POWER_ON||b_check_BAT_ok==TRUE)
+	if(mcu_state==POWER_ON&&b_check_BAT_ok==TRUE)
 	{
 //		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4)==0)  //按键按下了
 		if(GPIO_ReadInputDataBit(KEY_MODE_PORT, KEY_MODE_PIN)==0)  //按键按下了
@@ -716,6 +741,8 @@ void PaintPWM(unsigned char num,unsigned char* buffer)
 			p_PWM_waitAfter_cnt=&PWM1_waitAfter_cnt;
 			p_PWM_numOfCycle=&PWM1_numOfCycle;
 			p_PWM_serial_cnt=&PWM1_serial_cnt;
+			p_Motor_star_running_cnt=&start_motor_running1_cnt;
+			b_pre_startting_motor_finished=&b_pre_startting_motor1;
 			break;
 		case 2:
 			p_pwm_state=&pwm2_state;
@@ -724,6 +751,8 @@ void PaintPWM(unsigned char num,unsigned char* buffer)
 			p_PWM_waitAfter_cnt=&PWM2_waitAfter_cnt;
 			p_PWM_numOfCycle=&PWM2_numOfCycle;
 			p_PWM_serial_cnt=&PWM2_serial_cnt;
+			p_Motor_star_running_cnt=&start_motor_running2_cnt;
+			b_pre_startting_motor_finished=&b_pre_startting_motor2;
 			break;
 		case 3:
 			p_pwm_state=&pwm3_state;
@@ -732,6 +761,8 @@ void PaintPWM(unsigned char num,unsigned char* buffer)
 			p_PWM_waitAfter_cnt=&PWM3_waitAfter_cnt;
 			p_PWM_numOfCycle=&PWM3_numOfCycle;
 			p_PWM_serial_cnt=&PWM3_serial_cnt;
+			p_Motor_star_running_cnt=&start_motor_running3_cnt;
+			b_pre_startting_motor_finished=&b_pre_startting_motor3;
 			break;
 		default:
 			break;
@@ -765,8 +796,11 @@ void PaintPWM(unsigned char num,unsigned char* buffer)
 			}
 			else
 			{
-				Motor_PWM_Freq_Dudy_Set(num,buffer[1+8*(*p_PWM_serial_cnt)+2],buffer[1+8*(*p_PWM_serial_cnt)+3]);
+//				Motor_PWM_Freq_Dudy_Set(num,buffer[1+8*(*p_PWM_serial_cnt)+2],buffer[1+8*(*p_PWM_serial_cnt)+3]);
 				*p_pwm_state=PWM_PERIOD;
+				
+				*b_pre_startting_motor_finished=FALSE;
+				Motor_PWM_Freq_Dudy_Set(num,10000,50); //用10k,D.C 80%来预启动马达，预计持续50ms//
 			}
 		}
 		
@@ -793,6 +827,22 @@ void PaintPWM(unsigned char num,unsigned char* buffer)
 			else
 			{
 				++(*p_PWM_period_cnt);
+				
+				//2018.12.26新增，预启动马达(马达突然启动会耗费很多电流,使用高频率达到慢慢启动效果,不至于将系统弄掉电)
+				if(*b_pre_startting_motor_finished==FALSE)
+				{
+					if(*p_Motor_star_running_cnt==4)  
+					{
+						*p_Motor_star_running_cnt=0;
+						*b_pre_startting_motor_finished=TRUE;
+						Motor_PWM_Freq_Dudy_Set(num,buffer[1+8*(*p_PWM_serial_cnt)+2],buffer[1+8*(*p_PWM_serial_cnt)+3]);
+					}
+					else
+					{
+						++(*p_Motor_star_running_cnt);
+						Motor_PWM_Freq_Dudy_Set(num,10000,50+(*p_Motor_star_running_cnt)*3);
+					}
+				}
 			}
 		}
 		
@@ -1151,8 +1201,10 @@ void check_selectedMode_ouputPWM()
 			for(uint8_t i=0;i<5;i++)
 			{
 				//set_led(LED_CLOSE);
-				Motor_PWM_Freq_Dudy_Set(1,100,50);
-				Motor_PWM_Freq_Dudy_Set(2,100,50);
+				Motor_PWM_Freq_Dudy_Set(1,10000,75);
+				Motor_PWM_Freq_Dudy_Set(2,10000,75);
+//				Motor_PWM_Freq_Dudy_Set(1,100,50);
+//				Motor_PWM_Freq_Dudy_Set(2,100,50);
 //				Motor_PWM_Freq_Dudy_Set(3,100,0);
 				Delay_ms(500);
 				//IWDG_Feed(); 
