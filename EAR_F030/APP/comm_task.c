@@ -452,7 +452,7 @@ void led_show()
 			set_led(LED_YELLOW,TRUE);
 //			
 ////			//记录关机
-////			record_dateTime(CODE_NO_POWER); //没电开机，不用记录
+////			record_dateTime(CODE_NO_POWER); 
 			for(uint8_t i=0;i<5;i++)
 			{
 				Motor_PWM_Freq_Dudy_Set(1,10000,65);
