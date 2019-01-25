@@ -96,6 +96,8 @@ BOOL b_check_BAT_ok=FALSE;
 extern uint8_t switch_mode_cnt;
 extern BOOL b_check_bnt_release;
 extern uint8_t release_btn_cnt;
+
+extern uint16_t checkPressAgain_cnt;
 /***********************************
 * ¾Ö²¿º¯Êý
 ***********************************/
@@ -457,6 +459,8 @@ void CfgALLPins4StopMode()
 
 void init_global_variant()
 {
+	checkPressAgain_cnt=0;
+	
 	b_check_BAT_ok=FALSE;
 	switch_mode_cnt=0;
 	b_check_bnt_release=FALSE;
