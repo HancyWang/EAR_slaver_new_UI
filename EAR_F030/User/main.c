@@ -96,6 +96,7 @@
 0x2C,0xD1
 		#endif
 	};
+const uint8_t SW_VERSION[3]={1,0,1};
 	
 int main(void)
 {
