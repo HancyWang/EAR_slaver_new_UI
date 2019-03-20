@@ -18,7 +18,8 @@
 #include "hardware.h"
 #include "iwtdg.h"
 
-#define HONEYWELL_RATE			11110   //Ð±ÂÊ
+//#define HONEYWELL_RATE			11110   //Ð±ÂÊ
+//#define HONEYWELL_RATE			9000   //Ð±ÂÊ
 extern uint32_t HONEYWELL_ZERO_POINT;
 extern uint32_t trans_xmmHg_2_adc_value(uint8_t xmmHg);
 extern BOOL b_getHoneywellZeroPoint;

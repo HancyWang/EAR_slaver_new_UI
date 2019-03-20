@@ -96,7 +96,10 @@
 0x2C,0xD1
 		#endif
 	};
-const uint8_t SW_VERSION[3]={1,0,1};
+
+//The new UI version start from:1.1.0
+//And the old UI version start from: 1.0.0
+const uint8_t SW_VERSION[3]={1,1,0};
 	
 int main(void)
 {

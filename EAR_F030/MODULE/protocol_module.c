@@ -42,6 +42,7 @@ uint8_t rcvParaSuccess=0x00;
 //發送數據FIFO
 extern FIFO_TYPE send_fifo;
 extern uint8_t send_buf[SEND_BUF_LEN];
+extern uint8_t SW_VERSION[3];
 
 extern UINT8 parameter_buf[PARAMETER_BUF_LEN];  //长度为434+2，用来接收上位机发送来的参数设置
 extern UINT16 check_sum;
@@ -49,6 +50,7 @@ extern UINT16 check_sum;
 //extern uint8_t send_exp_train_data_status;s
 extern MCU_STATE mcu_state;
 extern uint16_t RegularConvData_Tab[2];
+extern uint32_t HONEYWELL_ZERO_POINT;
 
 uint8_t arr_mmgH_value[3];
 uint16_t arr_adc_value[3];
@@ -734,6 +736,41 @@ void send_RTC_record_numbers()
 	fifoWriteData(&send_fifo, buffer, buffer[1]+2);
 }
 
+void send_sw_version()
+{
+	uint8_t buffer[9];
+	
+	buffer[0] = 0xFF;      						//0xFF
+	buffer[1] = 0x07;            
+	buffer[2] = MODULE_CMD_TYPE;      //0x00
+	buffer[3] = SEND_SW_VERSION; 			//0x73
+	
+	buffer[4]=SW_VERSION[0];
+	buffer[5]=SW_VERSION[1];
+	buffer[6]=SW_VERSION[2];
+	
+	CalcCheckSum(buffer);
+	fifoWriteData(&send_fifo, buffer, buffer[1]+2);
+}
+
+void send_pressure_zero_point()
+{
+	uint8_t buffer[10];
+	
+	buffer[0] = 0xFF;      						//0xFF
+	buffer[1] = 0x08;            
+	buffer[2] = MODULE_CMD_TYPE;      //0x00
+	buffer[3] = SEND_PRESSURE_ZERO_POINT; 			//0x75
+	
+	buffer[4]=(HONEYWELL_ZERO_POINT>>16)/256;
+	buffer[5]=(HONEYWELL_ZERO_POINT>>16)%256;
+	buffer[6]=(HONEYWELL_ZERO_POINT&0x0000FFFF)/256;
+	buffer[7]=(HONEYWELL_ZERO_POINT&0x0000FFFF)%256;
+	
+	CalcCheckSum(buffer);
+	fifoWriteData(&send_fifo, buffer, buffer[1]+2);
+}
+
 uint16_t get_page_num(uint16_t frameX)
 {
 	uint16_t tmp=0;
@@ -951,6 +988,13 @@ void protocol_module_process(uint8_t* pdata)
 		break;
 	case GET_RTC_INFO:
 		send_rtc_info(getFrameNo(pdata));
+		break;
+	case GET_SW_VERSION:
+		send_sw_version();
+		break;
+	case GET_PRESSURE_ZERO_POINT:
+		send_pressure_zero_point();
+		break;
 	default:
 		break;
 	}

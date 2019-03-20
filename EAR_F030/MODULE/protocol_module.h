@@ -66,7 +66,11 @@
 #define SENT_RTC_BYTES						0x69	//下位机发送给上位机总字节数
 #define GET_RTC_INFO							0x70  //上位机发送获取下位机的rtc信息命令
 #define SEND_RTC_INFO							0x71	//下位机发送rtc信息给上位机
+#define GET_SW_VERSION						0x72	//获取软件版本
+#define SEND_SW_VERSION						0x73	//发送软件版本
 
+#define GET_PRESSURE_ZERO_POINT		0x74  //上位机发送获取压力sensor的截距
+#define SEND_PRESSURE_ZERO_POINT	0x75	//下位机发送截距
 
 //定义上位机写入flash的起始地址
 #define FLASH_PAGE_SIZE      			((uint16_t)0x400)  //flash一页的大小为1K
