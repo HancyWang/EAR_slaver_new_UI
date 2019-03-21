@@ -17,6 +17,7 @@
 #include "key_led_task.h"
 #include "hardware.h"
 #include "iwtdg.h"
+#include "honeywell_sampling_data.h"
 
 //#define HONEYWELL_RATE			11110   //斜率
 //#define HONEYWELL_RATE			9000   //斜率
@@ -26,11 +27,12 @@ extern BOOL b_getHoneywellZeroPoint;
 
 //#define PRESSURE_RATE 70
 //#define PRESSURE_RATE (FlashReadWord(FLASH_PRESSURE_RATE_ADDR))
-uint16_t PRESSURE_RATE;
+//uint16_t PRESSURE_RATE;
 
-#define PRESSURE_SAFETY_THRESHOLD 160   //0xA0表示10.0，对应十进制160
-//y=ax+b
-#define PRESSURE_SENSOR_VALUE(x) ((int16_t)(((PRESSURE_RATE)*(x))+zero_point_of_pressure_sensor))
+//#define PRESSURE_SAFETY_THRESHOLD 160   //0xA0表示10.0，对应十进制160
+//#define PRESSURE_SAFETY_THRESHOLD 20
+////y=ax+b
+//#define PRESSURE_SENSOR_VALUE(x) ((int16_t)(((PRESSURE_RATE)*(x))+zero_point_of_pressure_sensor))
 
 
 //全局变量
@@ -57,7 +59,7 @@ extern BOOL b_check_bat;
 
 extern LED_STATE led_state;
 
-extern int16_t zero_point_of_pressure_sensor;
+//extern int16_t zero_point_of_pressure_sensor;
 
 static BOOL PWM1_timing_flag=TRUE;
 static BOOL PWM2_timing_flag=TRUE; 
@@ -986,22 +988,22 @@ void FillUpPWMbuffer(uint8_t* dest,uint8_t* src)
 	dest[0]=serial_cnt;
 }
 
-//容错，如果读到的sensor斜率值在[10,200]之间，为ok，否则读10次之后就给sensor默认值20
-void get_pressure_sensor_rate()
-{
-	uint8_t readCnt=0;
-	do
-	{
-		if(readCnt==10) //如果读10次都不在[10,200]之间，认为有问题
-		{
-			readCnt=0;
-			PRESSURE_RATE=60;
-			return;
-		}
-		PRESSURE_RATE=FlashReadWord(FLASH_PRESSURE_RATE_ADDR);
-		readCnt++;
-	}while(PRESSURE_RATE<10||PRESSURE_RATE>200);
-}
+////容错，如果读到的sensor斜率值在[10,200]之间，为ok，否则读10次之后就给sensor默认值20
+//void get_pressure_sensor_rate()
+//{
+//	uint8_t readCnt=0;
+//	do
+//	{
+//		if(readCnt==10) //如果读10次都不在[10,200]之间，认为有问题
+//		{
+//			readCnt=0;
+//			PRESSURE_RATE=60;
+//			return;
+//		}
+//		PRESSURE_RATE=FlashReadWord(FLASH_PRESSURE_RATE_ADDR);
+//		readCnt++;
+//	}while(PRESSURE_RATE<10||PRESSURE_RATE>200);
+//}
 
 
 
@@ -1016,6 +1018,7 @@ void get_pressure_sensor_rate()
 *******************************************************************************/
 void check_selectedMode_ouputPWM()
 {
+
 //	static uint16_t pressure_result; 
 	#ifdef _DEBUG
 	#else
@@ -1035,16 +1038,9 @@ void check_selectedMode_ouputPWM()
 			memcpy(buffer,tmp,PARAMETER_BUF_LEN);
 			CheckFlashData(buffer);
 			
-//			get_pressure_sensor_rate();  //获取压力sensor的斜率
-//			//PRESSURE_RATE=FlashReadWord(FLASH_PRESSURE_RATE_ADDR);
-//			//state=GET_MODE;
 			state=CPY_PARA_TO_BUFFER;
 		}
-//		//2.获得开关对应的模式
-//		if(state==GET_MODE)    //flash参数加载内存之后，获取开关对应的模式
-//		{
-//			state=CPY_PARA_TO_BUFFER;
-//		}
+
 		
 		//3.根据选择的模式将数据拷贝到pwm_buffer 
 		if(state==CPY_PARA_TO_BUFFER)  //根据选择的模式，将para填充到pwm_buffer中
@@ -1080,7 +1076,9 @@ void check_selectedMode_ouputPWM()
 		{
 			if(b_getHoneywellZeroPoint)
 			{
-				if(CHECK_MODE_OUTPUT_PWM*checkPressAgain_cnt==60*1000)   //连续60s检测不到，进入POWER_OFF
+				//连续60s检测不到，进入POWER_OFF
+				//2019.3.21应Ilan要求，将60s改成120s
+				if(CHECK_MODE_OUTPUT_PWM*checkPressAgain_cnt==120*1000)   
 				{
 					checkPressAgain_cnt=0;
 					mcu_state=POWER_OFF;
@@ -1105,12 +1103,11 @@ void check_selectedMode_ouputPWM()
 						{
 							checkPressAgain_cnt=0;
 
-							if(adc_pressure_value>trans_xmmHg_2_adc_value(PRESSURE_SAFETY_THRESHOLD))  
+							if(adc_pressure_value>PRESSURE_SENSOR_VALUE(PRESSURE_SAFETY_THRESHOLD))  
 							{
 								state=OVER_THRESHOLD_SAFETY;
 							}
-
-							else if(adc_pressure_value>=trans_xmmHg_2_adc_value(buffer[0])&&adc_pressure_value<=trans_xmmHg_2_adc_value(PRESSURE_SAFETY_THRESHOLD))
+							else if(adc_pressure_value>=trans_xmmHg_2_adc_value(buffer[0])&&adc_pressure_value<=PRESSURE_SENSOR_VALUE(PRESSURE_SAFETY_THRESHOLD))
 							{
 								//触发成功，记录治疗开始时间
 								record_dateTime(CODE_SYSTEM_BEEN_TRIGGERED);
@@ -1173,10 +1170,7 @@ void check_selectedMode_ouputPWM()
 			}		
 			else
 			{
-				//if(adc_value[1]<=PRESSURE_SAFETY_THRESHOLD*PRESSURE_RATE)
-//				if(adc_value[1]<=PRESSURE_SENSOR_VALUE(PRESSURE_SAFETY_THRESHOLD))
-	
-				if(adc_pressure_value<=trans_xmmHg_2_adc_value(PRESSURE_SAFETY_THRESHOLD))
+				if(adc_pressure_value<=PRESSURE_SENSOR_VALUE(PRESSURE_SAFETY_THRESHOLD))
 				{
 					PaintPWM(1,pwm1_buffer); 
 					PaintPWM(2,pwm2_buffer);
@@ -1234,90 +1228,9 @@ void check_selectedMode_ouputPWM()
 			pwm1_state=PWM_START;
 			pwm2_state=PWM_START;
 			pwm3_state=PWM_START;
-			#if 0
-//			uint16_t result;
-//			result=RegularConvData_Tab[0];
-//			if(result<2730) //如果电压小于2.2v,（基准3.3v）
-//			{
-//				//闪灯，进入POWER_OFF
-//				state=LED_RED_BLINK;
-//			}
-//			else
-//			{
-//				state=LOAD_PARA;
-//				pwm1_state=PWM_START;
-//				pwm2_state=PWM_START;
-//				pwm3_state=PWM_START;
-//			}
-//		}
-	#endif
-#if 0		
-//		//对应4，压力检测，如果检测压力不ok，则再次检测压力
-//		if(state==CHECK_PRESSURE_AGAIN) //再次检测压力
-//		{
-//			if(CHECK_MODE_OUTPUT_PWM*checkPressAgain_cnt==60*1000)   //连续60s检测不到，进入POWER_OFF
-//			{
-//				checkPressAgain_cnt=0;
-//				mcu_state=POWER_OFF;
-//				state=LOAD_PARA;
-//				set_led(LED_CLOSE);
-//				
-//				EnterStopMode();
-//				init_system_afterWakeUp();
-//			}
-//			else
-//			{
-//				//pressure_result=ADS115_readByte(0x90);
-//				//adc_value[1]=ADS115_readByte(0x90);
-//				//特别注意，这里不能用全局变量buffer,而应该用parameter_buf
-//				//理由：如果进入60s倒计时状态，此时的buffer的值在CHECK_PRESSURE_AGAIN状态已经固定了
-//				//如果此时上位机更新了参数，parameter_buf[0]会改变，应该用这个变化了的值来判断
-//				if(adc_value[1]<parameter_buf[0]*70) 
-//				{
-//					checkPressAgain_cnt++;
-//				}
-//				else	
-//				{
-//					checkPressAgain_cnt=0;
-//					state=LOAD_PARA;
-//					
-//				}
-//			}
-//		}
-#endif
-
-//		//对应7，如果检测电池电压小于2.2V，则闪灯
-//		if(state==LED_RED_BLINK)
-//		{
-#if 0
-//			//橙色LED闪3s
-//			for(int i=0;i<3;i++)
-//			{
-//				set_led(LED_RED);
-//				Delay_ms(500);
-//				set_led(LED_CLOSE);
-//				Delay_ms(500);
-//				IWDG_Feed();   //喂狗
-//			}
-//			//Delay_ms(10);
-//			state=LOAD_PARA;
-//			pwm1_state=PWM_START;
-//			pwm2_state=PWM_START;
-//			pwm3_state=PWM_START;
-//			mcu_state=POWER_OFF;
-//			
-//			EnterStopMode();
-//			init_system_afterWakeUp();
-#endif
 		}
 	}
-//	else
-//	{
-//		//进入低功耗模式
-////		EnterStopMode();
-////		init_system_afterWakeUp();
-////		Motor_PWM_Init();
-//	}
+
 	IWDG_Feed();   //喂狗
 	os_delay_ms(TASK_OUTPUT_PWM, CHECK_MODE_OUTPUT_PWM);
 }

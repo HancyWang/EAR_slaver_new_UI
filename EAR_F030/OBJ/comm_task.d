@@ -31,3 +31,4 @@
 ..\obj\comm_task.o: ..\APP\common.h
 ..\obj\comm_task.o: ..\HARDWARE\hardware.h
 ..\obj\comm_task.o: ..\User\iwtdg.h
+..\obj\comm_task.o: ..\APP\honeywell_sampling_data.h

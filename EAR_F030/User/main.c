@@ -19,8 +19,7 @@
 
  const uint8_t default_parameter_buf[PARAMETER_BUF_LEN] = {
 #if 1
-//common parameter
-8,//0.8,0*16+8=8
+16,//1.0,1*16+0=16
 1,
 
 //MODE1
@@ -93,7 +92,7 @@
 
 
 //Checksum
-0x2C,0xD1
+0x2C,0xD9
 		#endif
 	};
 

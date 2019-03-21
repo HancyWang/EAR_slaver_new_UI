@@ -3,6 +3,11 @@
 
 #include "datatype.h"
 
+#define HONEYWELL_RATE			11185   //斜率,根据公式算出来的
+#define PRESSURE_SAFETY_THRESHOLD 20   //20mmHg，最大过压值
+#define PRESSURE_SENSOR_VALUE(x) (((HONEYWELL_RATE)*(x))+(HONEYWELL_ZERO_POINT))
+
+
 #define HONEYWELL_SAMPLING_DATA_PERIOD 10
 
 typedef enum 

@@ -43,7 +43,7 @@ unsigned short inner_adc_result[SAMPLING_CNT];
 uint16_t RegularConvData_Tab[1];
 // uint16_t RegularConvData_Tab[2];  //电池电压和按键模式 //新版本中按键模式使用tact switch，不用ADC4了
 
-int16_t zero_point_of_pressure_sensor;
+//int16_t zero_point_of_pressure_sensor;
 
 extern uint8_t parameter_buf[PARAMETER_BUF_LEN];
 
