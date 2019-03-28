@@ -76,7 +76,7 @@
 #define FLASH_PAGE_SIZE      			((uint16_t)0x400)  //flash一页的大小为1K
 #define FLASH_START_ADDR   				((uint32_t)0x08000000) //flash开始地址
 #define FLASH_END_ADDR						((uint32_t)0x08004000) //flash结束地址
-#define FLASH_WRITE_START_ADDR		((uint32_t)0x08000000+1024*30) //开始写入的开始地址
+#define FLASH_WRITE_START_ADDR		((uint32_t)0x08000000+1024*30) //开始写入的开始地址，存放parameter
 #define FLASH_WRITE_END_ADDR      ((uint32_t)0x08004000)  //flash写入的结束地址
 
 //记录开关机时间
@@ -85,7 +85,8 @@
 #define FLASH_RECORD_DATETIME_UPLIMIT	((uint32_t)0x08000000+1024*128)  //128K属于上限值，不允许记录了
 #define FLASH_PAGE_STEP								1024*2  												//步长为2K，因为070CB的1个page就是2K
 
-#define FLASH_PRESSURE_RATE_ADDR  ((uint32_t)0x08000000+1024*26) //开始写入的开始地址
+#define FLASH_PRESSURE_RATE_ADDR  ((uint32_t)0x08000000+1024*26) //开始写入的开始地址,压力斜率
+#define FLASH_BTN_MODE_ADDR				((uint32_t)0x08000000+1024*28) //存放当前按键模式
 
 void FlashRead(uint32_t addr, uint32_t *p_data, uint16_t len);
 uint32_t FlashReadWord(uint32_t addr);

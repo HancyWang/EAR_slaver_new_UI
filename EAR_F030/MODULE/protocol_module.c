@@ -645,6 +645,10 @@ void Init_RecordPage()
 //记录开关机时间
 void record_dateTime(SYSTEM_CODE code)
 {
+	#ifdef RTC_DISABLE
+	return;
+	#endif
+	
 	//获取page信息，1.从XXX页 2.到XXX页 3.记录条数
 	//pageInfo[0]  从xxx页
 	//pageInfo[1]  到xxx页

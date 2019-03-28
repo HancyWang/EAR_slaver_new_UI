@@ -4,6 +4,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 #include "datatype.h"
+#include "stdint.h"
 
 //#define SEND_BUF_LEN  255
 #define SEND_BUF_LEN  248
@@ -60,4 +61,5 @@ void get_switch_mode(void);
 void thermal_check(void);
 void adc_value_sample(void);
 void led_show(void);
+uint8_t read_btn_mode_from_flash(void);
 #endif

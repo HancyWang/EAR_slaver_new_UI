@@ -640,6 +640,28 @@ void led_show()
 //}
 #endif
 
+void write_btn_mode_2_flash()
+{
+	uint32_t btn_mode=(uint32_t)mode;
+	FlashWrite(FLASH_BTN_MODE_ADDR,(uint8_t*)(&btn_mode),1);
+}
+
+uint8_t read_btn_mode_from_flash()
+{
+//	static uint32_t btn_mode=0;
+	uint32_t btn_mode=0;
+	FlashRead(FLASH_BTN_MODE_ADDR,&btn_mode,1);
+	if(btn_mode!=1&&btn_mode!=2&&btn_mode!=3)
+	{
+		btn_mode=1;
+	}
+//	if(btn_mode>3||btn_mode<1)
+//	{
+//		btn_mode=1;
+//	}
+	return (uint8_t)btn_mode;
+}
+
 /*******************************************************************************
 ** 函数名称: get_switch_mode
 ** 功能描述: 获取按键所对应的模式
@@ -650,7 +672,11 @@ void led_show()
 *******************************************************************************/
 void get_switch_mode()
 {
+	#ifdef _DEBUG
+	mode=read_btn_mode_from_flash();
+	#else
 	if(mcu_state==POWER_ON&&b_check_BAT_ok==TRUE)
+	#endif
 	{
 //		if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4)==0)  //按键按下了
 		if(GPIO_ReadInputDataBit(KEY_MODE_PORT, KEY_MODE_PIN)==0)  //按键按下了
@@ -706,7 +732,8 @@ void get_switch_mode()
 							break;
 					}	
 					
-					
+					//将按键写入flash中
+					write_btn_mode_2_flash();
 				}
 				else
 				{
@@ -1018,7 +1045,6 @@ void FillUpPWMbuffer(uint8_t* dest,uint8_t* src)
 *******************************************************************************/
 void check_selectedMode_ouputPWM()
 {
-
 //	static uint16_t pressure_result; 
 	#ifdef _DEBUG
 	#else

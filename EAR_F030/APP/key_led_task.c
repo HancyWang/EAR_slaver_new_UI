@@ -532,6 +532,8 @@ LED_STATE Check_Bat()
 }
 
 
+
+
 void key_led_task(void)
 {
 	if(key_state==KEY_STOP_MODE)

@@ -1,13 +1,13 @@
 ..\obj\comm_task.o: ..\APP\comm_task.c
 ..\obj\comm_task.o: ..\APP\comm_task.h
 ..\obj\comm_task.o: ..\SYSTEM\fifo\datatype.h
+..\obj\comm_task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\comm_task.o: ..\SYSTEM\fifo\fifo.h
 ..\obj\comm_task.o: ..\SYSTEM\cmd\CMD_Receive.h
 ..\obj\comm_task.o: ..\OS\os_cfg.h
 ..\obj\comm_task.o: ..\OS\os_core.h
 ..\obj\comm_task.o: ..\User\stm32f0xx.h
 ..\obj\comm_task.o: ..\CORE\core_cm0.h
-..\obj\comm_task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\comm_task.o: ..\CORE\core_cmInstr.h
 ..\obj\comm_task.o: ..\CORE\core_cmFunc.h
 ..\obj\comm_task.o: ..\User\system_stm32f0xx.h
