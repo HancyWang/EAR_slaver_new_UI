@@ -100,7 +100,7 @@
 //The new UI version start from:1.1.0
 //And the old UI version start from: 1.0.0
 //软件版本1.2.1，更新parameters
-const uint8_t SW_VERSION[3]={1,2,1};
+const uint8_t SW_VERSION[3]={1,2,2};
 	
 int main(void)
 {
