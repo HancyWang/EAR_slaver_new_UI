@@ -221,7 +221,7 @@ I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (..\STM32F03x_FWLib\inc\stm32f0xx_flash.h)(0x5C930A10)
 I (..\APP\key_led_task.h)(0x5C930A10)
 I (..\APP\common.h)(0x5C930A10)
-I (..\HARDWARE\rtc.h)(0x5C9C5C57)
+I (..\HARDWARE\rtc.h)(0x5D50FF03)
 I (..\STM32F03x_FWLib\inc\stm32f0xx_rtc.h)(0x5C930A10)
 F (..\APP\common.c)(0x5C930A10)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork -I ..\APP -I ..\OS -I ..\CORE -I ..\HARDWARE -I ..\MODULE -I ..\STM32F03x_FWLib\inc -I ..\STM32F03x_FWLib\src -I ..\User -I ..\SYSTEM -I ..\SYSTEM\cmd -I ..\SYSTEM\fifo-I.\RTE\_Stm32f030demo-ID:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-ID:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32F071xB -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\obj\common.o --omf_browse ..\obj\common.crf --depend ..\obj\common.d)
 I (..\User\stm32f0xx_conf.h)(0x5C930A10)
@@ -333,7 +333,7 @@ I (..\APP\comm_task.h)(0x5C9C48B3)
 I (..\MODULE\protocol_module.h)(0x5C9C4117)
 I (..\APP\key_led_task.h)(0x5C930A10)
 I (..\APP\app.h)(0x5C9C4D53)
-I (..\HARDWARE\rtc.h)(0x5C9C5C57)
+I (..\HARDWARE\rtc.h)(0x5D50FF03)
 I (..\STM32F03x_FWLib\inc\stm32f0xx_rtc.h)(0x5C930A10)
 F (..\HARDWARE\Motor_pwm.c)(0x5C930A10)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork -I ..\APP -I ..\OS -I ..\CORE -I ..\HARDWARE -I ..\MODULE -I ..\STM32F03x_FWLib\inc -I ..\STM32F03x_FWLib\src -I ..\User -I ..\SYSTEM -I ..\SYSTEM\cmd -I ..\SYSTEM\fifo-I.\RTE\_Stm32f030demo-ID:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-ID:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32F071xB -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\obj\motor_pwm.o --omf_browse ..\obj\motor_pwm.crf --depend ..\obj\motor_pwm.d)
 I (..\HARDWARE\Motor_pwm.h)(0x5C930A10)
@@ -358,7 +358,7 @@ I (..\OS\os_cfg.h)(0x5C930A10)
 I (..\OS\os_core.h)(0x5C930A10)
 I (D:\Keil_v5\ARM\ARMCC\include\time.h)(0x599ECD2E)
 F (..\HARDWARE\rtc.c)(0x5C9C5C03)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork -I ..\APP -I ..\OS -I ..\CORE -I ..\HARDWARE -I ..\MODULE -I ..\STM32F03x_FWLib\inc -I ..\STM32F03x_FWLib\src -I ..\User -I ..\SYSTEM -I ..\SYSTEM\cmd -I ..\SYSTEM\fifo-I.\RTE\_Stm32f030demo-ID:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-ID:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="525" -D_RTE_ -DSTM32F071xB -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\obj\rtc.o --omf_browse ..\obj\rtc.crf --depend ..\obj\rtc.d)
-I (..\HARDWARE\rtc.h)(0x5C9C5C57)
+I (..\HARDWARE\rtc.h)(0x5D50FF03)
 I (..\STM32F03x_FWLib\inc\stm32f0xx_rtc.h)(0x5C930A10)
 I (..\User\stm32f0xx.h)(0x5C930A10)
 I (..\CORE\core_cm0.h)(0x5C930A10)
